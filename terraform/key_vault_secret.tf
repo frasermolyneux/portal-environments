@@ -15,18 +15,34 @@ resource "azurerm_key_vault_secret" "config_secret" {
 }
 
 // Dynamic secrets from resources created in this repository
-resource "azurerm_key_vault_secret" "repository_webapi_app_client_id" {
+resource "azurerm_key_vault_secret" "repository_webapi_app_client_id_v1" {
   name         = "azuread-app-client-id-repository-webapi"
   value        = azuread_application.repository_api_application.client_id
-  key_vault_id = azurerm_key_vault.config_kv["repository-webapi"].id
+  key_vault_id = azurerm_key_vault.config_kv["repository-webapi-v1"].id
 
   content_type = "text/plain"
 }
 
-resource "azurerm_key_vault_secret" "repository_webapi_app_password" {
+resource "azurerm_key_vault_secret" "repository_webapi_app_password_v1" {
   name         = "azuread-app-password-repository-webapi"
   value        = azuread_application_password.app_password_primary.value
-  key_vault_id = azurerm_key_vault.config_kv["repository-webapi"].id
+  key_vault_id = azurerm_key_vault.config_kv["repository-webapi-v1"].id
+
+  content_type = "text/plain"
+}
+
+resource "azurerm_key_vault_secret" "repository_webapi_app_client_id_v2" {
+  name         = "azuread-app-client-id-repository-webapi"
+  value        = azuread_application.repository_api_application.client_id
+  key_vault_id = azurerm_key_vault.config_kv["repository-webapi-v2"].id
+
+  content_type = "text/plain"
+}
+
+resource "azurerm_key_vault_secret" "repository_webapi_app_password_v2" {
+  name         = "azuread-app-password-repository-webapi"
+  value        = azuread_application_password.app_password_primary.value
+  key_vault_id = azurerm_key_vault.config_kv["repository-webapi-v2"].id
 
   content_type = "text/plain"
 }
