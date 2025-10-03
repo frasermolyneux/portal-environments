@@ -22,28 +22,56 @@ resource "azurerm_app_configuration_key" "config_secret_keys" {
 }
 
 // Dynamic keys from resources created in this repository
-resource "azurerm_app_configuration_key" "repository_webapi_audience" {
+// Repository Web API V1
+resource "azurerm_app_configuration_key" "repository_webapi_audience_v1" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
 
   key   = "AzureAd:Audience"
-  label = "repository-webapi"
+  label = "repository-webapi-v1"
   value = format("api://%s", local.app_registration_name)
 }
 
-resource "azurerm_app_configuration_key" "repository_webapi_client_id" {
+resource "azurerm_app_configuration_key" "repository_webapi_client_id_v1" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
 
   key   = "AzureAd:ClientId"
-  label = "repository-webapi"
+  label = "repository-webapi-v1"
 
-  vault_key_reference = azurerm_key_vault_secret.repository_webapi_app_client_id.versionless_id
+  vault_key_reference = azurerm_key_vault_secret.repository_webapi_app_client_id_v1.versionless_id
 }
 
-resource "azurerm_app_configuration_key" "repository_webapi_client_secret" {
+resource "azurerm_app_configuration_key" "repository_webapi_client_secret_v1" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
 
   key   = "AzureAd:ClientSecret"
-  label = "repository-webapi"
+  label = "repository-webapi-v1"
 
-  vault_key_reference = azurerm_key_vault_secret.repository_webapi_app_password.versionless_id
+  vault_key_reference = azurerm_key_vault_secret.repository_webapi_app_password_v1.versionless_id
+}
+
+// Repository Web API V2
+resource "azurerm_app_configuration_key" "repository_webapi_audience_v2" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "AzureAd:Audience"
+  label = "repository-webapi-v2"
+  value = format("api://%s", local.app_registration_name)
+}
+
+resource "azurerm_app_configuration_key" "repository_webapi_client_id_v2" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "AzureAd:ClientId"
+  label = "repository-webapi-v2"
+
+  vault_key_reference = azurerm_key_vault_secret.repository_webapi_app_client_id_v2.versionless_id
+}
+
+resource "azurerm_app_configuration_key" "repository_webapi_client_secret_v2" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "AzureAd:ClientSecret"
+  label = "repository-webapi-v2"
+
+  vault_key_reference = azurerm_key_vault_secret.repository_webapi_app_password_v2.versionless_id
 }
