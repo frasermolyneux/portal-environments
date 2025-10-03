@@ -34,7 +34,7 @@ resource "azuread_application" "repository_api_application" {
 }
 
 resource "azuread_service_principal" "repository_api_service_principal" {
-  client_id                    = azuread_application.repository_api.client_id
+  client_id                    = azuread_application.repository_api_application.client_id
   app_role_assignment_required = false
 
   owners = [
@@ -43,7 +43,7 @@ resource "azuread_service_principal" "repository_api_service_principal" {
 }
 
 resource "azuread_application_password" "app_password_primary" {
-  application_id = azuread_application.repository_api.id
+  application_id = azuread_application.repository_api_application.id
 
   rotate_when_changed = {
     rotation = time_rotating.thirty_days.id
