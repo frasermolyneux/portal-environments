@@ -17,7 +17,7 @@ resource "azurerm_key_vault_secret" "config_secret" {
 // Dynamic secrets from resources created in this repository
 resource "azurerm_key_vault_secret" "repository_webapi_app_client_id" {
   name         = "azuread-app-client-id-repository-webapi"
-  value        = azuread_application.repository_api_application.application_id
+  value        = azuread_application.repository_api_application.client_id
   key_vault_id = azurerm_key_vault.config_kv["repository-webapi"].id
 
   content_type = "text/plain"
