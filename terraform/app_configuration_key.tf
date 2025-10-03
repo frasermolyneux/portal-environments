@@ -34,6 +34,8 @@ resource "azurerm_app_configuration_key" "repository_webapi_audience_v1" {
 resource "azurerm_app_configuration_key" "repository_webapi_client_id_v1" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
 
+  type = "vault"
+
   key   = "AzureAd:ClientId"
   label = "repository-webapi-v1"
 
@@ -42,6 +44,8 @@ resource "azurerm_app_configuration_key" "repository_webapi_client_id_v1" {
 
 resource "azurerm_app_configuration_key" "repository_webapi_client_secret_v1" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  type = "vault"
 
   key   = "AzureAd:ClientSecret"
   label = "repository-webapi-v1"
@@ -61,6 +65,8 @@ resource "azurerm_app_configuration_key" "repository_webapi_audience_v2" {
 resource "azurerm_app_configuration_key" "repository_webapi_client_id_v2" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
 
+  type = "vault"
+
   key   = "AzureAd:ClientId"
   label = "repository-webapi-v2"
 
@@ -69,6 +75,8 @@ resource "azurerm_app_configuration_key" "repository_webapi_client_id_v2" {
 
 resource "azurerm_app_configuration_key" "repository_webapi_client_secret_v2" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  type = "vault"
 
   key   = "AzureAd:ClientSecret"
   label = "repository-webapi-v2"
