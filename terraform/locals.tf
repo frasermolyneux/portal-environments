@@ -9,6 +9,8 @@ locals {
   event_ingest_funcapp_identity_name   = "id-portal-eventingest-funcapp-${var.environment}"
   sync_funcapp_identity_name           = "id-portal-sync-funcapp-${var.environment}"
   repository_funcapp_identity_name     = "id-portal-repository-funcapp-${var.environment}"
+
+  app_registration_name = "portal-repository-${var.environment}"
 }
 
 locals {
