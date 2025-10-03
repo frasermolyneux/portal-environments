@@ -16,6 +16,10 @@ variable "app_configuration_sku" {
   default = "free"
 }
 
+variable "app_configs" {
+  type = list(string)
+}
+
 variable "tags" {
   default = {}
 }

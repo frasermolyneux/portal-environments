@@ -1,0 +1,15 @@
+{
+    "label": "repository-webapi-v1",
+    "keys": [
+        {
+            "key": "AzureAd:TenantId",
+            "value": "e56a6947-bb9a-4a6e-846a-1f118d1c3a14"
+        },
+        {
+            "key": "AzureAd:Instance",
+            "value": "https://login.microsoftonline.com/"
+        }
+    ],
+    "secret_keys": [],
+    "features": []
+}
