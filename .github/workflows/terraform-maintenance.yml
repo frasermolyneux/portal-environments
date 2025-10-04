@@ -11,6 +11,7 @@ on:
         options:
           - import
           - destroy-targets
+          - state-rm
       environment-slug:
         description: "Short key for the environment (used for tfvars/backends naming and concurrency controls)"
         required: true
@@ -37,6 +38,10 @@ on:
         default: ""
       destroy-targets:
         description: "JSON array of Terraform target addresses to destroy (required when operation is destroy-targets)"
+        required: false
+        default: ""
+      state-addresses:
+        description: "JSON array of Terraform state addresses to remove (required when operation is state-rm)"
         required: false
         default: ""
 
@@ -113,6 +118,20 @@ jobs:
 
           echo "$DESTROY_TARGETS" | jq empty
 
+      - name: Validate state-rm inputs
+        if: ${{ inputs.operation == 'state-rm' }}
+        shell: bash
+        env:
+          STATE_ADDRESSES: ${{ inputs['state-addresses'] }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$STATE_ADDRESSES" ]]; then
+            echo "state-addresses input is required when running the state-rm operation" >&2
+            exit 1
+          fi
+
+          echo "$STATE_ADDRESSES" | jq empty
+
       - name: Terraform import resource
         if: ${{ inputs.operation == 'import' }}
         uses: frasermolyneux/actions/terraform-import@main
@@ -139,3 +158,16 @@ jobs:
           AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
           resources: ${{ inputs['destroy-targets'] }}
+
+      - name: Terraform remove state addresses
+        if: ${{ inputs.operation == 'state-rm' }}
+        uses: frasermolyneux/actions/terraform-state-rm@main
+        with:
+          terraform-folder: ${{ steps.resolve.outputs.terraform-folder }}
+          terraform-var-file: ${{ steps.resolve.outputs.terraform-var-file }}
+          terraform-backend-file: ${{ steps.resolve.outputs.terraform-backend-file }}
+          terraform-additional-args: ${{ inputs['terraform-additional-args'] }}
+          AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
+          AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
+          AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+          state-addresses: ${{ inputs['state-addresses'] }}
