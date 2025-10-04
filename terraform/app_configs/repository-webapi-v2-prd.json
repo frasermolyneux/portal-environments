@@ -1,5 +1,6 @@
 {
-    "label": "repository-webapi-v2",
+    "label": "prd",
+    "namespace": "XtremeIdiots.Portal.Repository.Api.V2",
     "keys": [
         {
             "key": "AzureAd:TenantId",

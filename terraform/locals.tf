@@ -10,6 +10,10 @@ locals {
   sync_funcapp_identity_name           = "id-portal-sync-funcapp-${var.environment}"
   repository_funcapp_identity_name     = "id-portal-repository-funcapp-${var.environment}"
 
+  repository_webapi_namespace_v1         = "XtremeIdiots.Portal.Repository.Api.V1"
+  repository_webapi_namespace_v2         = "XtremeIdiots.Portal.Repository.Api.V2"
+  repository_integration_tests_namespace = "XtremeIdiots.Portal.Repository.IntegrationTests"
+
   app_registration_name       = "portal-repository-${var.environment}-01"
   tests_app_registration_name = "portal-repository-integration-tests-${var.environment}"
 }
@@ -18,7 +22,8 @@ locals {
   json_files = [for config in var.app_configs : jsondecode(file("app_configs/${config}.json"))]
 
   configs = [for content in local.json_files : {
-    label = content.label,
+    label     = content.label,
+    namespace = content.namespace,
     keys = [for key in lookup(content, "keys", []) : {
       key   = key.key,
       value = lookup(key, "value", "")
@@ -32,10 +37,11 @@ locals {
   config_keys = flatten([
     for config in local.configs : [
       for key in config.keys : {
-        key      = format("%s-%s", config.label, key.key)
-        label    = config.label
-        key_name = key.key
-        value    = key.value
+        key       = format("%s|%s|%s", config.namespace, config.label, key.key)
+        label     = config.label
+        key_name  = format("%s:%s", config.namespace, key.key)
+        namespace = config.namespace
+        value     = key.value
       }
     ]
   ])
@@ -43,9 +49,10 @@ locals {
   config_secret_keys = flatten([
     for config in local.configs : [
       for key in config.secret_keys : {
-        key        = format("%s-%s", config.label, key.key)
+        key        = format("%s|%s|%s", config.namespace, config.label, key.key)
         label      = config.label
-        key_name   = key.key
+        key_name   = format("%s:%s", config.namespace, key.key)
+        namespace  = config.namespace
         expiration = key.expiration
       }
     ]

@@ -1,5 +1,6 @@
 {
-    "label": "repository-integration-tests",
+    "label": "prd",
+    "namespace": "XtremeIdiots.Portal.Repository.IntegrationTests",
     "keys": [
         {
             "key": "AzureAd:TenantId",
