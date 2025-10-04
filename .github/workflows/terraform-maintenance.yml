@@ -48,7 +48,7 @@ jobs:
   terraform-maintenance:
     name: Terraform Maintenance (${{ inputs.operation }})
     runs-on: ubuntu-latest
-  environment: ${{ inputs['environment-slug'] == 'dev' && 'Development' || inputs['environment-slug'] == 'prd' && 'Production' || inputs['environment-slug'] }}
+    environment: ${{ inputs['environment-slug'] == 'dev' && 'Development' || inputs['environment-slug'] == 'prd' && 'Production' || inputs['environment-slug'] }}
     concurrency:
       group: ${{ format('{0}-{1}-maintenance', github.repository, inputs['environment-slug']) }}
 
