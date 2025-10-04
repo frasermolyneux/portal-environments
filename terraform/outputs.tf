@@ -9,6 +9,11 @@ output "managed_identity_ids" {
   value       = { for key, identity in azurerm_user_assigned_identity.managed : key => identity.id }
 }
 
+output "managed_identity_object_ids" {
+  description = "Map of managed identity object IDs keyed by identity name."
+  value       = { for key, identity in azurerm_user_assigned_identity.managed : key => identity.object_id }
+}
+
 output "managed_identity_principal_ids" {
   description = "Map of managed identity principal IDs keyed by identity name."
   value       = { for key, identity in azurerm_user_assigned_identity.managed : key => identity.principal_id }
