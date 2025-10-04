@@ -6,8 +6,10 @@ resource "random_uuid" "app_role_repository_access" {
 }
 
 resource "azuread_application" "repository_api_application" {
-  display_name     = local.app_registration_name
-  identifier_uris  = [format("api://%s", local.app_registration_name)]
+  display_name = local.app_registration_name
+  identifier_uris = [
+    format("api://%s/%s", data.azuread_client_config.current.tenant_id, local.app_registration_name)
+  ]
   owners           = [data.azuread_client_config.current.object_id]
   sign_in_audience = "AzureADMyOrg"
 
