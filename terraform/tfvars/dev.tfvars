@@ -9,7 +9,7 @@ log_analytics_workspace_name      = "log-platform-prd-uksouth-01"
 
 app_configuration_sku = "free"
 
-app_configs = ["repository-webapi-v1-dev", "repository-webapi-v2-dev"]
+app_configs = ["repository-webapi-v1-dev", "repository-webapi-v2-dev", "repository-integration-tests-dev"]
 
 tags = {
   Environment = "dev",

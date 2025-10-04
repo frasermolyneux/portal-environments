@@ -1,3 +1,9 @@
+// Azure App Configuration
+output "app_configuration_endpoint" {
+  value = azurerm_app_configuration.app_configuration.endpoint
+}
+
+// User Assigned Identities
 output "api_management_identity_id" {
   value = azurerm_user_assigned_identity.api_management_identity.id
 }

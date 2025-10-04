@@ -46,3 +46,28 @@ resource "azurerm_key_vault_secret" "repository_webapi_app_password_v2" {
 
   content_type = "text/plain"
 }
+
+// Repository Integration Tests
+resource "azurerm_key_vault_secret" "repository_integration_tests_app_client_id" {
+  name         = "azuread-app-client-id-repository-integration-tests"
+  value        = azuread_application.repository_integration_tests.client_id
+  key_vault_id = azurerm_key_vault.config_kv["repository-integration-tests"].id
+
+  content_type = "text/plain"
+}
+
+resource "azurerm_key_vault_secret" "repository_integration_tests_app_client_secret" {
+  name         = "azuread-app-password-repository-integration-tests"
+  value        = azuread_application_password.repository_integration_tests_primary.value
+  key_vault_id = azurerm_key_vault.config_kv["repository-integration-tests"].id
+
+  content_type = "text/plain"
+}
+
+resource "azurerm_key_vault_secret" "repository_integration_tests_app_tenant_id" {
+  name         = "azuread-app-tenant-id-repository-integration-tests"
+  value        = data.azurerm_client_config.current.tenant_id
+  key_vault_id = azurerm_key_vault.config_kv["repository-integration-tests"].id
+
+  content_type = "text/plain"
+}

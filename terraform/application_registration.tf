@@ -1,3 +1,4 @@
+// Repository API Application
 resource "random_uuid" "oauth2_repository_access" {
 }
 
@@ -50,4 +51,34 @@ resource "azuread_application_password" "app_password_primary" {
   rotate_when_changed = {
     rotation = time_rotating.thirty_days.id
   }
+}
+
+// Repository Integration Tests Application
+resource "azuread_application" "repository_integration_tests" {
+  display_name     = local.tests_app_registration_name
+  owners           = [data.azuread_client_config.current.object_id]
+  sign_in_audience = "AzureADMyOrg"
+}
+
+resource "azuread_service_principal" "repository_integration_tests" {
+  client_id                    = azuread_application.repository_integration_tests.client_id
+  app_role_assignment_required = false
+
+  owners = [
+    data.azuread_client_config.current.object_id
+  ]
+}
+
+resource "azuread_application_password" "repository_integration_tests_primary" {
+  application_id = azuread_application.repository_integration_tests.id
+
+  rotate_when_changed = {
+    rotation = time_rotating.thirty_days.id
+  }
+}
+
+resource "azuread_app_role_assignment" "repository_integration_tests_service_account" {
+  app_role_id         = azuread_application.repository_api_application.app_role[0].id
+  principal_object_id = azuread_service_principal.repository_integration_tests.object_id
+  resource_object_id  = azuread_service_principal.repository_api_service_principal.object_id
 }

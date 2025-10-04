@@ -83,3 +83,26 @@ resource "azurerm_app_configuration_key" "repository_webapi_client_secret_v2" {
 
   vault_key_reference = azurerm_key_vault_secret.repository_webapi_app_password_v2.versionless_id
 }
+
+// Repository Integration Tests
+resource "azurerm_app_configuration_key" "repository_integration_tests_client_id" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  type = "vault"
+
+  key   = "AzureAd:ClientId"
+  label = "repository-integration-tests"
+
+  vault_key_reference = azurerm_key_vault_secret.repository_integration_tests_app_client_id.versionless_id
+}
+
+resource "azurerm_app_configuration_key" "repository_integration_tests_client_secret" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  type = "vault"
+
+  key   = "AzureAd:ClientSecret"
+  label = "repository-integration-tests"
+
+  vault_key_reference = azurerm_key_vault_secret.repository_integration_tests_app_client_secret.versionless_id
+}
