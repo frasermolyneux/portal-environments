@@ -1,41 +1,23 @@
-resource "azurerm_role_assignment" "api_management_identity_app_config_reader" {
+resource "azurerm_role_assignment" "managed_identity_app_config_reader" {
+  for_each = {
+    for key, identity in local.managed_identities :
+    key => identity
+    if identity.app_config_reader
+  }
+
   scope                = azurerm_app_configuration.app_configuration.id
   role_definition_name = "App Configuration Data Reader"
-  principal_id         = azurerm_user_assigned_identity.api_management_identity.principal_id
+  principal_id         = azurerm_user_assigned_identity.managed[each.key].principal_id
 }
 
-resource "azurerm_role_assignment" "public_webapp_identity_app_config_reader" {
-  scope                = azurerm_app_configuration.app_configuration.id
-  role_definition_name = "App Configuration Data Reader"
-  principal_id         = azurerm_user_assigned_identity.public_webapp_identity.principal_id
-}
+resource "azurerm_role_assignment" "managed_identity_key_vault_reader" {
+  for_each = {
+    for pair in local.managed_identity_namespace_pairs :
+    "${pair.identity_key}|${pair.namespace}" => pair
+    if contains(keys(azurerm_key_vault.config_kv), pair.namespace)
+  }
 
-resource "azurerm_role_assignment" "repository_webapi_identity_app_config_reader" {
-  scope                = azurerm_app_configuration.app_configuration.id
-  role_definition_name = "App Configuration Data Reader"
-  principal_id         = azurerm_user_assigned_identity.repository_webapi_identity.principal_id
-}
-
-resource "azurerm_role_assignment" "message_broker_funcapp_identity_app_config_reader" {
-  scope                = azurerm_app_configuration.app_configuration.id
-  role_definition_name = "App Configuration Data Reader"
-  principal_id         = azurerm_user_assigned_identity.message_broker_funcapp_identity.principal_id
-}
-
-resource "azurerm_role_assignment" "event_ingest_funcapp_identity_app_config_reader" {
-  scope                = azurerm_app_configuration.app_configuration.id
-  role_definition_name = "App Configuration Data Reader"
-  principal_id         = azurerm_user_assigned_identity.event_ingest_funcapp_identity.principal_id
-}
-
-resource "azurerm_role_assignment" "sync_funcapp_identity_app_config_reader" {
-  scope                = azurerm_app_configuration.app_configuration.id
-  role_definition_name = "App Configuration Data Reader"
-  principal_id         = azurerm_user_assigned_identity.sync_funcapp_identity.principal_id
-}
-
-resource "azurerm_role_assignment" "repository_funcapp_identity_app_config_reader" {
-  scope                = azurerm_app_configuration.app_configuration.id
-  role_definition_name = "App Configuration Data Reader"
-  principal_id         = azurerm_user_assigned_identity.repository_funcapp_identity.principal_id
+  scope                = azurerm_key_vault.config_kv[each.value.namespace].id
+  role_definition_name = "Key Vault Secrets User"
+  principal_id         = azurerm_user_assigned_identity.managed[each.value.identity_key].principal_id
 }

@@ -2,14 +2,6 @@ locals {
   resource_group_name    = "rg-portal-environments-${var.environment}-${var.location}"
   app_configuration_name = "appcs-portal-${var.environment}-${var.location}"
 
-  api_management_identity_name         = "id-portal-api-management-${var.environment}"
-  public_webapp_identity_name          = "id-portal-webapp-${var.environment}"
-  repository_webapi_identity_name      = "id-portal-repository-webapi-${var.environment}"
-  message_broker_funcapp_identity_name = "id-portal-messagebroker-funcapp-${var.environment}"
-  event_ingest_funcapp_identity_name   = "id-portal-eventingest-funcapp-${var.environment}"
-  sync_funcapp_identity_name           = "id-portal-sync-funcapp-${var.environment}"
-  repository_funcapp_identity_name     = "id-portal-repository-funcapp-${var.environment}"
-
   repository_webapi_namespace_v1         = "XtremeIdiots.Portal.Repository.Api.V1"
   repository_webapi_namespace_v2         = "XtremeIdiots.Portal.Repository.Api.V2"
   repository_integration_tests_namespace = "XtremeIdiots.Portal.Repository.IntegrationTests"
@@ -19,6 +11,24 @@ locals {
 }
 
 locals {
+  managed_identities = {
+    for key, identity in var.managed_identities : key => {
+      name              = format("id-portal-%s-%s", identity.name_suffix, var.environment)
+      namespaces        = identity.namespaces
+      tags              = merge(var.tags, identity.tags)
+      app_config_reader = identity.app_config_reader
+    }
+  }
+
+  managed_identity_namespace_pairs = flatten([
+    for identity_key, identity in local.managed_identities : [
+      for namespace in identity.namespaces : {
+        identity_key = identity_key
+        namespace    = namespace
+      }
+    ]
+  ])
+
   json_files = [for config in var.app_configs : jsondecode(file("app_configs/${config}.json"))]
 
   configs = [for content in local.json_files : {

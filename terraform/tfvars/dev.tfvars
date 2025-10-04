@@ -17,3 +17,43 @@ tags = {
   DeployedBy  = "GitHub-Terraform",
   Git         = "https://github.com/frasermolyneux/portal-environments"
 }
+
+managed_identities = {
+  api_management_identity = {
+    name_suffix = "api-management"
+    namespaces  = []
+  }
+
+  public_webapp_identity = {
+    name_suffix = "webapp"
+    namespaces  = []
+  }
+
+  repository_webapi_identity = {
+    name_suffix = "repository-webapi"
+    namespaces = [
+      "XtremeIdiots.Portal.Repository.Api.V1",
+      "XtremeIdiots.Portal.Repository.Api.V2"
+    ]
+  }
+
+  message_broker_funcapp_identity = {
+    name_suffix = "messagebroker-funcapp"
+    namespaces  = []
+  }
+
+  event_ingest_funcapp_identity = {
+    name_suffix = "eventingest-funcapp"
+    namespaces  = []
+  }
+
+  sync_funcapp_identity = {
+    name_suffix = "sync-funcapp"
+    namespaces  = []
+  }
+
+  repository_funcapp_identity = {
+    name_suffix = "repository-funcapp"
+    namespaces  = []
+  }
+}

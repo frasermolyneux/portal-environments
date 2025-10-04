@@ -23,3 +23,14 @@ variable "app_configs" {
 variable "tags" {
   default = {}
 }
+
+variable "managed_identities" {
+  description = "Map of managed identities to create along with namespace access and role preferences."
+  type = map(object({
+    name_suffix       = string
+    namespaces        = optional(list(string), [])
+    tags              = optional(map(string), {})
+    app_config_reader = optional(bool, true)
+  }))
+  default = {}
+}
