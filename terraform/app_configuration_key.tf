@@ -28,7 +28,7 @@ resource "azurerm_app_configuration_key" "repository_webapi_audience_v1" {
 
   key   = "${local.repository_webapi_namespace_v1}:AzureAd:Audience"
   label = var.environment
-  value = format("api://%s", local.app_registration_name)
+  value = format("api://%s/%s", data.azuread_client_config.current.tenant_id, local.app_registration_name)
 }
 
 resource "azurerm_app_configuration_key" "repository_webapi_client_id_v1" {
@@ -59,7 +59,7 @@ resource "azurerm_app_configuration_key" "repository_webapi_audience_v2" {
 
   key   = "${local.repository_webapi_namespace_v2}:AzureAd:Audience"
   label = var.environment
-  value = format("api://%s", local.app_registration_name)
+  value = format("api://%s/%s", data.azuread_client_config.current.tenant_id, local.app_registration_name)
 }
 
 resource "azurerm_app_configuration_key" "repository_webapi_client_id_v2" {
