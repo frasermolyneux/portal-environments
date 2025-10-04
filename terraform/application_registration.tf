@@ -76,9 +76,3 @@ resource "azuread_application_password" "repository_integration_tests_primary" {
     rotation = time_rotating.thirty_days.id
   }
 }
-
-resource "azuread_app_role_assignment" "repository_integration_tests_service_account" {
-  app_role_id         = azuread_application.repository_api_application.app_role[0].id
-  principal_object_id = azuread_service_principal.repository_integration_tests.object_id
-  resource_object_id  = azuread_service_principal.repository_api_service_principal.object_id
-}
