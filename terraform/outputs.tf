@@ -18,3 +18,11 @@ output "managed_identity_principal_ids" {
   description = "Map of managed identity principal IDs keyed by identity name."
   value       = { for key, identity in azurerm_user_assigned_identity.managed : key => identity.principal_id }
 }
+
+output "sql_admin_group" {
+  description = "Details for the SQL administrator Azure AD group."
+  value = {
+    display_name = azuread_group.sql_admin_group.display_name
+    object_id    = azuread_group.sql_admin_group.object_id
+  }
+}

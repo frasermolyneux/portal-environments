@@ -1,6 +1,7 @@
 locals {
   resource_group_name    = "rg-portal-environments-${var.environment}-${var.location}"
   app_configuration_name = "appcs-portal-${var.environment}-${var.location}"
+  sql_admin_group_name   = "sql-portal-admins-${var.environment}"
 
   repository_webapi_namespace_v1         = "XtremeIdiots.Portal.Repository.Api.V1"
   repository_webapi_namespace_v2         = "XtremeIdiots.Portal.Repository.Api.V2"
