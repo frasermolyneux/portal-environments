@@ -7,18 +7,6 @@ on:
         description: "Short key for the environment (used for tfvars/backends naming and concurrency controls)"
         required: true
         default: dev
-      terraform-folder:
-        description: "Path to the Terraform configuration folder"
-        required: false
-        default: terraform
-      terraform-var-file:
-        description: "Optional override for the Terraform var file. Leave blank to use tfvars/<slug>.tfvars"
-        required: false
-        default: ""
-      terraform-additional-args:
-        description: "Additional arguments to pass to Terraform commands"
-        required: false
-        default: ""
       import-address:
         description: "Terraform address to import"
         required: true
@@ -26,6 +14,14 @@ on:
       import-id:
         description: "Existing resource ID to import"
         required: true
+        default: ""
+      terraform-folder:
+        description: "Path to the Terraform configuration folder"
+        required: false
+        default: terraform
+      terraform-var-file:
+        description: "Optional override for the Terraform var file. Leave blank to use tfvars/<slug>.tfvars"
+        required: false
         default: ""
 
 permissions:
@@ -80,7 +76,6 @@ jobs:
           terraform-folder: ${{ steps.resolve.outputs.terraform-folder }}
           terraform-var-file: ${{ steps.resolve.outputs.terraform-var-file }}
           terraform-backend-file: ${{ steps.resolve.outputs.terraform-backend-file }}
-          terraform-additional-args: ${{ inputs['terraform-additional-args'] }}
           AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
           AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
