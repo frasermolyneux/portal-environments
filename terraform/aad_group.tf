@@ -4,6 +4,11 @@ resource "azuread_group" "sql_admin_group" {
   security_enabled = true
 }
 
+resource "azuread_administrative_unit_member" "sql_admin_group" {
+  administrative_unit_object_id = local.workload_administrative_unit.administrative_unit_object_id
+  member_object_id              = azuread_group.sql_admin_group.id
+}
+
 resource "azuread_group_member" "sql_admins" {
   for_each = { for principal_name in var.sql_admin_aad_group_members : principal_name => principal_name }
 
