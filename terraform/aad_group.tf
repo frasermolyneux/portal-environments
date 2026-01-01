@@ -2,11 +2,8 @@ resource "azuread_group" "sql_admin_group" {
   display_name     = local.sql_admin_group_name
   owners           = [data.azuread_client_config.current.object_id]
   security_enabled = true
-}
 
-resource "azuread_administrative_unit_member" "sql_admin_group" {
-  administrative_unit_object_id = local.workload_administrative_unit.administrative_unit_object_id
-  member_object_id              = azuread_group.sql_admin_group.id
+  administrative_unit_ids = [local.workload_administrative_unit.administrative_unit_object_id]
 }
 
 resource "azuread_group_member" "sql_admins" {
