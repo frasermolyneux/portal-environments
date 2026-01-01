@@ -1,6 +1,11 @@
-resource "azurerm_resource_group" "rg" {
-  name     = local.resource_group_name
-  location = var.location
+data "azurerm_resource_group" "rg" {
+  name = local.resource_group_name
+}
 
-  tags = var.tags
+removed {
+  from = azurerm_resource_group.rg
+
+  lifecycle {
+    destroy = false
+  }
 }
