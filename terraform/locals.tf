@@ -1,7 +1,20 @@
 locals {
-  workload_resource_group      = data.terraform_remote_state.platform_workloads.outputs.workload_resource_groups[var.workload_name][var.environment].resource_groups[lower(var.location)]
-  resource_group_name          = local.workload_resource_group.name
-  workload_administrative_unit = data.terraform_remote_state.platform_workloads.outputs.workload_administrative_units[var.workload_name][var.environment]
+  workload_resource_groups = {
+    for location in [var.location] :
+    location => data.terraform_remote_state.platform_workloads.outputs.workload_resource_groups[var.workload_name][var.environment].resource_groups[lower(location)]
+  }
+
+  workload_backend = try(
+    data.terraform_remote_state.platform_workloads.outputs.workload_terraform_backends[var.workload_name][var.environment],
+    null
+  )
+
+  workload_administrative_unit = try(
+    data.terraform_remote_state.platform_workloads.outputs.workload_administrative_units[var.workload_name][var.environment],
+    null
+  )
+
+  workload_resource_group = local.workload_resource_groups[var.location]
 
   app_configuration_name = "appcs-portal-${var.environment}-${var.location}-${random_id.environment_id.hex}"
   sql_admin_group_name   = "sql-portal-admins-${var.environment}"
