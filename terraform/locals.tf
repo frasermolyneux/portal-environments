@@ -1,4 +1,5 @@
 locals {
+  # Remote State References
   workload_resource_groups = {
     for location in [var.location] :
     location => data.terraform_remote_state.platform_workloads.outputs.workload_resource_groups[var.workload_name][var.environment].resource_groups[lower(location)]
@@ -16,15 +17,21 @@ locals {
 
   workload_resource_group = local.workload_resource_groups[var.location]
 
+  # Local Resource Naming
   app_configuration_name = "appcs-portal-${var.environment}-${var.location}-${random_id.environment_id.hex}"
   sql_admin_group_name   = "sql-portal-admins-${var.environment}"
 
-  repository_webapi_namespace_v1         = "XtremeIdiots.Portal.Repository.Api.V1"
-  repository_webapi_namespace_v2         = "XtremeIdiots.Portal.Repository.Api.V2"
-  repository_integration_tests_namespace = "XtremeIdiots.Portal.Repository.IntegrationTests"
+  key_vault_names = {
+    for namespace, id in random_id.config_id : namespace => substr(format("kv-%s-%s", id.hex, var.location), 0, 24)
+  }
 
   app_registration_name       = "portal-repository-${var.environment}-01"
   tests_app_registration_name = "portal-repository-integration-tests-${var.environment}"
+
+  # Static Naming
+  repository_webapi_namespace_v1         = "XtremeIdiots.Portal.Repository.Api.V1"
+  repository_webapi_namespace_v2         = "XtremeIdiots.Portal.Repository.Api.V2"
+  repository_integration_tests_namespace = "XtremeIdiots.Portal.Repository.IntegrationTests"
 }
 
 locals {

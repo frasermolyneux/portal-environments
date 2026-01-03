@@ -7,7 +7,7 @@ resource "random_id" "config_id" {
 resource "azurerm_key_vault" "config_kv" {
   for_each = { for each in local.configs : each.namespace => each }
 
-  name = "kv-${random_id.config_id[each.key].hex}-${var.location}"
+  name = local.key_vault_names[each.key]
 
   location            = data.azurerm_resource_group.rg.location
   resource_group_name = data.azurerm_resource_group.rg.name
