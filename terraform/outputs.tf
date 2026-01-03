@@ -1,22 +1,26 @@
-// Azure App Configuration
-output "app_configuration_endpoint" {
-  value = azurerm_app_configuration.app_configuration.endpoint
+// Azure App Configuration (shared across workloads)
+output "app_configuration" {
+  description = "App Configuration endpoint and identifiers."
+  value = {
+    name                = azurerm_app_configuration.app_configuration.name
+    id                  = azurerm_app_configuration.app_configuration.id
+    endpoint            = azurerm_app_configuration.app_configuration.endpoint
+    resource_group_name = azurerm_app_configuration.app_configuration.resource_group_name
+    location            = azurerm_app_configuration.app_configuration.location
+  }
 }
 
-// User Assigned Identities
-output "managed_identity_ids" {
-  description = "Map of managed identity resource IDs keyed by identity name."
-  value       = { for key, identity in azurerm_user_assigned_identity.managed : key => identity.id }
-}
-
-output "managed_identity_client_ids" {
-  description = "Map of managed identity client IDs keyed by identity name."
-  value       = { for key, identity in azurerm_user_assigned_identity.managed : key => identity.client_id }
-}
-
-output "managed_identity_principal_ids" {
-  description = "Map of managed identity principal IDs keyed by identity name."
-  value       = { for key, identity in azurerm_user_assigned_identity.managed : key => identity.principal_id }
+// User Assigned Identities keyed by workload/environment
+output "managed_identities" {
+  description = "Managed identities with id, client_id, and principal_id keyed by identity name."
+  value = {
+    for key, identity in azurerm_user_assigned_identity.managed :
+    key => {
+      id           = identity.id
+      client_id    = identity.client_id
+      principal_id = identity.principal_id
+    }
+  }
 }
 
 output "sql_admin_group" {
