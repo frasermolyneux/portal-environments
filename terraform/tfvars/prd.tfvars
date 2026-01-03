@@ -70,4 +70,10 @@ managed_identities = {
     name_suffix = "repository-funcapp"
     namespaces  = []
   }
+
+  portal_core_sql_server_identity = {
+    name_suffix       = "core-sql-server"
+    namespaces        = []
+    app_config_reader = false
+  }
 }
