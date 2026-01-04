@@ -46,3 +46,18 @@ output "sql_repository_writers_group" {
     object_id    = azuread_group.sql_repository_writers_group.object_id
   }
 }
+
+output "repository_api" {
+  description = "Repository API app registration and service principal metadata for downstream consumers."
+  value = {
+    application = {
+      display_name           = azuread_application.repository_api_application.display_name
+      object_id              = azuread_application.repository_api_application.id
+      application_id         = azuread_application.repository_api_application.client_id
+      primary_identifier_uri = azuread_application.repository_api_application.identifier_uris[0]
+    }
+    service_principal = {
+      object_id = azuread_service_principal.repository_api_service_principal.id
+    }
+  }
+}
