@@ -33,14 +33,15 @@ tags = {
 }
 
 managed_identities = {
-  api_management_identity = {
+  core_api_management_identity = {
     name_suffix = "api-management"
     namespaces  = []
   }
 
-  public_webapp_identity = {
-    name_suffix = "webapp"
-    namespaces  = []
+  core_sql_server_identity = {
+    name_suffix       = "sql-server"
+    namespaces        = []
+    app_config_reader = false
   }
 
   repository_webapi_identity = {
@@ -51,8 +52,8 @@ managed_identities = {
     ]
   }
 
-  message_broker_funcapp_identity = {
-    name_suffix = "messagebroker-funcapp"
+  public_webapp_identity = {
+    name_suffix = "webapp"
     namespaces  = []
   }
 
@@ -69,11 +70,5 @@ managed_identities = {
   repository_funcapp_identity = {
     name_suffix = "repository-funcapp"
     namespaces  = []
-  }
-
-  portal_core_sql_server_identity = {
-    name_suffix       = "core-sql-server"
-    namespaces        = []
-    app_config_reader = false
   }
 }

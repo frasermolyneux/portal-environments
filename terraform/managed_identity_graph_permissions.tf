@@ -3,7 +3,7 @@ data "azuread_service_principal" "msgraph" {
 }
 
 locals {
-  portal_core_sql_server_identity_key = "portal_core_sql_server_identity"
+  core_sql_server_identity_key = "core_sql_server_identity"
 
   portal_core_sql_server_graph_app_roles = [
     "User.Read.All",
@@ -22,6 +22,6 @@ resource "azuread_app_role_assignment" "portal_core_sql_server_graph" {
   for_each = toset(local.portal_core_sql_server_graph_app_roles)
 
   app_role_id         = local.microsoft_graph_app_roles[each.value].id
-  principal_object_id = azurerm_user_assigned_identity.managed[local.portal_core_sql_server_identity_key].principal_id
+  principal_object_id = azurerm_user_assigned_identity.managed[local.core_sql_server_identity_key].principal_id
   resource_object_id  = data.azuread_service_principal.msgraph.object_id
 }
