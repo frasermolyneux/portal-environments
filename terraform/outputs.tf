@@ -54,7 +54,7 @@ output "repository_api" {
       display_name           = azuread_application.repository_api_application.display_name
       object_id              = azuread_application.repository_api_application.id
       application_id         = azuread_application.repository_api_application.client_id
-      primary_identifier_uri = azuread_application.repository_api_application.identifier_uris[0]
+      primary_identifier_uri = one(azuread_application.repository_api_application.identifier_uris)
     }
     service_principal = {
       object_id = azuread_service_principal.repository_api_service_principal.id
