@@ -30,3 +30,19 @@ output "sql_admin_group" {
     object_id    = azuread_group.sql_admin_group.object_id
   }
 }
+
+output "sql_repository_readers_group" {
+  description = "Details for the SQL repository readers Azure AD group."
+  value = {
+    display_name = azuread_group.sql_repository_readers_group.display_name
+    object_id    = azuread_group.sql_repository_readers_group.object_id
+  }
+}
+
+output "sql_repository_writers_group" {
+  description = "Details for the SQL repository writers Azure AD group."
+  value = {
+    display_name = azuread_group.sql_repository_writers_group.display_name
+    object_id    = azuread_group.sql_repository_writers_group.object_id
+  }
+}
