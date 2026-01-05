@@ -61,3 +61,18 @@ output "repository_api" {
     }
   }
 }
+
+output "event_ingest_api" {
+  description = "Event ingest API app registration and service principal metadata for downstream consumers."
+  value = {
+    application = {
+      display_name           = azuread_application.event_ingest_api_application.display_name
+      object_id              = azuread_application.event_ingest_api_application.id
+      application_id         = azuread_application.event_ingest_api_application.client_id
+      primary_identifier_uri = one(azuread_application.event_ingest_api_application.identifier_uris)
+    }
+    service_principal = {
+      object_id = azuread_service_principal.event_ingest_api_service_principal.id
+    }
+  }
+}
