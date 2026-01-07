@@ -95,3 +95,14 @@ locals {
     ]
   ])
 }
+
+locals {
+  spec_storage_account_name = format("sa%s", random_id.spec_storage.hex)
+  spec_storage_containers   = ["event-ingest", "servers-integration", "repository"]
+
+  spec_publisher_principal_ids = {
+    event_ingest        = data.terraform_remote_state.platform_workloads.outputs.workload_service_principals["portal-event-ingest"][var.environment].service_principal_id
+    servers_integration = data.terraform_remote_state.platform_workloads.outputs.workload_service_principals["portal-servers-integration"][var.environment].service_principal_id
+    repository          = data.terraform_remote_state.platform_workloads.outputs.workload_service_principals["portal-repository"][var.environment].service_principal_id
+  }
+}

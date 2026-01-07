@@ -76,3 +76,23 @@ output "event_ingest_api" {
     }
   }
 }
+
+output "spec_storage" {
+  description = "Storage account and containers for published API specifications."
+  value = {
+    account = {
+      name                  = azurerm_storage_account.api_spec.name
+      id                    = azurerm_storage_account.api_spec.id
+      resource_group_name   = azurerm_storage_account.api_spec.resource_group_name
+      location              = azurerm_storage_account.api_spec.location
+      primary_blob_endpoint = azurerm_storage_account.api_spec.primary_blob_endpoint
+    }
+    containers = {
+      for key, container in azurerm_storage_container.api_spec :
+      key => {
+        name = container.name
+        url  = format("%s%s", azurerm_storage_account.api_spec.primary_blob_endpoint, container.name)
+      }
+    }
+  }
+}
