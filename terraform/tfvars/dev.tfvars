@@ -52,6 +52,13 @@ managed_identities = {
     ]
   }
 
+  servers_integration_webapi_identity = {
+    name_suffix = "servers-integration-webapi"
+    namespaces = [
+      "XtremeIdiots.Portal.Integrations.Servers.Api.V1"
+    ]
+  }
+
   public_webapp_identity = {
     name_suffix = "webapp"
     namespaces  = []
