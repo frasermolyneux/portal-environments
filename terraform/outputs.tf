@@ -77,6 +77,21 @@ output "event_ingest_api" {
   }
 }
 
+output "servers_integration_api" {
+  description = "Servers Integration API app registration and service principal metadata for downstream consumers."
+  value = {
+    application = {
+      display_name           = azuread_application.servers_integration_api_application.display_name
+      object_id              = azuread_application.servers_integration_api_application.id
+      application_id         = azuread_application.servers_integration_api_application.client_id
+      primary_identifier_uri = one(azuread_application.servers_integration_api_application.identifier_uris)
+    }
+    service_principal = {
+      object_id = azuread_service_principal.servers_integration_api_service_principal.id
+    }
+  }
+}
+
 output "spec_storage" {
   description = "Storage account and containers for published API specifications."
   value = {

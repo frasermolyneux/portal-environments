@@ -27,9 +27,10 @@ locals {
     for namespace, id in random_id.config_id : namespace => substr(format("kv-%s-%s", id.hex, var.location), 0, 24)
   }
 
-  app_registration_name              = "portal-repository-${var.environment}-01"
-  tests_app_registration_name        = "portal-repository-integration-tests-${var.environment}"
-  event_ingest_app_registration_name = "portal-event-ingest-${var.environment}"
+  app_registration_name                     = "portal-repository-${var.environment}-01"
+  tests_app_registration_name               = "portal-repository-integration-tests-${var.environment}"
+  event_ingest_app_registration_name        = "portal-event-ingest-${var.environment}"
+  servers_integration_app_registration_name = "portal-servers-integration-${var.environment}"
 
   # Static Naming
   repository_webapi_namespace_v1         = "XtremeIdiots.Portal.Repository.Api.V1"
