@@ -10,7 +10,7 @@ resource "azurerm_api_management" "apim" {
 
   identity {
     type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.managed["core_api_management_identity"].id]
+    identity_ids = [azurerm_user_assigned_identity.managed["environments_api_management_identity"].id]
   }
 
   tags = var.tags

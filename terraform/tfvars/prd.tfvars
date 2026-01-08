@@ -29,7 +29,7 @@ tags = {
 }
 
 managed_identities = {
-  core_api_management_identity = {
+  environments_api_management_identity = {
     name_suffix = "api-management"
     namespaces  = []
   }
