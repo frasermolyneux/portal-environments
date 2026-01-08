@@ -23,6 +23,17 @@ output "managed_identities" {
   }
 }
 
+output "api_management" {
+  description = "API Management instance details for downstream consumers."
+  value = {
+    name                = azurerm_api_management.apim.name
+    id                  = azurerm_api_management.apim.id
+    resource_group_name = azurerm_api_management.apim.resource_group_name
+    location            = azurerm_api_management.apim.location
+    gateway_url         = azurerm_api_management.apim.gateway_url
+  }
+}
+
 output "sql_admin_group" {
   description = "Details for the SQL administrator Azure AD group."
   value = {

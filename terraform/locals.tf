@@ -18,6 +18,7 @@ locals {
   workload_resource_group = local.workload_resource_groups[var.location]
 
   # Local Resource Naming
+  api_management_name               = "apim-portal-${var.environment}-${var.location}-${random_id.environment_id.hex}"
   app_configuration_name            = "appcs-portal-${var.environment}-${var.location}-${random_id.environment_id.hex}"
   sql_admin_group_name              = "sg-sql-portal-core-admins-${var.environment}"
   sql_repository_readers_group_name = "sg-sql-portal-repository-readers-${var.environment}"
