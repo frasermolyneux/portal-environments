@@ -70,6 +70,10 @@ output "repository_api" {
     service_principal = {
       object_id = azuread_service_principal.repository_api_service_principal.id
     }
+    api_management = {
+      root_path = "repository"
+      endpoint  = "${azurerm_api_management.apim.gateway_url}/repository"
+    }
   }
 }
 
@@ -85,6 +89,10 @@ output "event_ingest_api" {
     service_principal = {
       object_id = azuread_service_principal.event_ingest_api_service_principal.id
     }
+    api_management = {
+      root_path = "event-ingest"
+      endpoint  = "${azurerm_api_management.apim.gateway_url}/event-ingest"
+    }
   }
 }
 
@@ -99,6 +107,10 @@ output "servers_integration_api" {
     }
     service_principal = {
       object_id = azuread_service_principal.servers_integration_api_service_principal.id
+    }
+    api_management = {
+      root_path = "servers-integration"
+      endpoint  = "${azurerm_api_management.apim.gateway_url}/servers-integration"
     }
   }
 }
