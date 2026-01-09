@@ -62,9 +62,10 @@ output "repository_api" {
   description = "Repository API app registration and service principal metadata for downstream consumers."
   value = {
     application = {
+      id                     = azuread_application.repository_api_application.id
+      object_id              = azuread_application.repository_api_application.object_id
+      client_id              = azuread_application.repository_api_application.client_id
       display_name           = azuread_application.repository_api_application.display_name
-      object_id              = azuread_application.repository_api_application.id
-      application_id         = azuread_application.repository_api_application.client_id
       primary_identifier_uri = one(azuread_application.repository_api_application.identifier_uris)
     }
     service_principal = {
@@ -81,9 +82,10 @@ output "event_ingest_api" {
   description = "Event ingest API app registration and service principal metadata for downstream consumers."
   value = {
     application = {
+      id                     = azuread_application.event_ingest_api_application.id
+      object_id              = azuread_application.event_ingest_api_application.object_id
+      client_id              = azuread_application.event_ingest_api_application.client_id
       display_name           = azuread_application.event_ingest_api_application.display_name
-      object_id              = azuread_application.event_ingest_api_application.id
-      application_id         = azuread_application.event_ingest_api_application.client_id
       primary_identifier_uri = one(azuread_application.event_ingest_api_application.identifier_uris)
     }
     service_principal = {
@@ -100,9 +102,10 @@ output "servers_integration_api" {
   description = "Servers Integration API app registration and service principal metadata for downstream consumers."
   value = {
     application = {
+      id                     = azuread_application.servers_integration_api_application.id
+      object_id              = azuread_application.servers_integration_api_application.object_id
+      client_id              = azuread_application.servers_integration_api_application.client_id
       display_name           = azuread_application.servers_integration_api_application.display_name
-      object_id              = azuread_application.servers_integration_api_application.id
-      application_id         = azuread_application.servers_integration_api_application.client_id
       primary_identifier_uri = one(azuread_application.servers_integration_api_application.identifier_uris)
     }
     service_principal = {
