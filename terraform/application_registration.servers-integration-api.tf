@@ -1,22 +1,24 @@
-// Event Ingest Application
-resource "random_uuid" "app_role_servers_integration_generator" {
+// Servers Integration API Application
+resource "random_uuid" "app_role_servers_integration_service_account" {
 }
 
 resource "azuread_application" "servers_integration_api_application" {
   display_name = local.servers_integration_app_registration_name
+
   identifier_uris = [
     format("api://%s/%s", data.azuread_client_config.current.tenant_id, local.servers_integration_app_registration_name)
   ]
+
   owners           = [data.azuread_client_config.current.object_id]
   sign_in_audience = "AzureADMyOrg"
 
   app_role {
     allowed_member_types = ["Application"]
-    description          = "Event generators can create player and server events"
-    display_name         = "EventGenerator"
+    description          = "Service Accounts can access/manage all data aspects"
+    display_name         = "ServiceAccount"
     enabled              = true
-    id                   = random_uuid.app_role_servers_integration_generator.result
-    value                = "EventGenerator"
+    id                   = random_uuid.app_role_servers_integration_service_account.result
+    value                = "ServiceAccount"
   }
 }
 

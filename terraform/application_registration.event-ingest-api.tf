@@ -4,9 +4,11 @@ resource "random_uuid" "app_role_event_ingest_generator" {
 
 resource "azuread_application" "event_ingest_api_application" {
   display_name = local.event_ingest_app_registration_name
+
   identifier_uris = [
     format("api://%s/%s", data.azuread_client_config.current.tenant_id, local.event_ingest_app_registration_name)
   ]
+
   owners           = [data.azuread_client_config.current.object_id]
   sign_in_audience = "AzureADMyOrg"
 
