@@ -21,3 +21,9 @@ resource "azurerm_role_assignment" "managed_identity_key_vault_reader" {
   role_definition_name = "Key Vault Secrets User"
   principal_id         = azurerm_user_assigned_identity.managed[each.value.identity_key].principal_id
 }
+
+resource "azurerm_role_assignment" "portal_bots_key_vault_reader" {
+  scope                = azurerm_key_vault.portal_bots.id
+  role_definition_name = "Key Vault Secrets User"
+  principal_id         = azuread_service_principal.portal_bots_service_principal.object_id
+}

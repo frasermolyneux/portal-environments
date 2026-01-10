@@ -32,6 +32,8 @@ locals {
   tests_app_registration_name               = "portal-repository-integration-tests-${var.environment}"
   event_ingest_app_registration_name        = "portal-event-ingest-${var.environment}"
   servers_integration_app_registration_name = "portal-servers-integration-${var.environment}"
+  portal_bots_app_registration_name         = "portal-bots-${var.environment}"
+  portal_bots_key_vault_name                = substr(format("kv-bot-%s-%s", random_id.portal_bots.hex, var.location), 0, 24)
 
   # Static Naming
   repository_webapi_namespace_v1         = "XtremeIdiots.Portal.Repository.Api.V1"

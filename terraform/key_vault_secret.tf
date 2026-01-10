@@ -71,3 +71,19 @@ resource "azurerm_key_vault_secret" "repository_integration_tests_app_tenant_id"
 
   content_type = "text/plain"
 }
+
+resource "azurerm_key_vault_secret" "portal_bots_app_client_id" {
+  name         = "azuread-app-client-id-portal-bots"
+  value        = azuread_application.portal_bots_application.client_id
+  key_vault_id = azurerm_key_vault.portal_bots.id
+
+  content_type = "text/plain"
+}
+
+resource "azurerm_key_vault_secret" "portal_bots_app_client_secret" {
+  name         = "azuread-app-password-portal-bots"
+  value        = azuread_application_password.portal_bots_primary.value
+  key_vault_id = azurerm_key_vault.portal_bots.id
+
+  content_type = "text/plain"
+}

@@ -117,3 +117,33 @@ output "servers_integration_api" {
     }
   }
 }
+
+output "portal_bots" {
+  description = "Portal bots app registration, service principal, and Key Vault metadata for downstream consumers."
+  value = {
+    application = {
+      id           = azuread_application.portal_bots_application.id
+      object_id    = azuread_application.portal_bots_application.object_id
+      client_id    = azuread_application.portal_bots_application.client_id
+      display_name = azuread_application.portal_bots_application.display_name
+    }
+    service_principal = {
+      object_id = azuread_service_principal.portal_bots_service_principal.object_id
+    }
+    key_vault = {
+      id                  = azurerm_key_vault.portal_bots.id
+      name                = azurerm_key_vault.portal_bots.name
+      resource_group_name = azurerm_key_vault.portal_bots.resource_group_name
+      secrets = {
+        client_id = {
+          name           = azurerm_key_vault_secret.portal_bots_app_client_id.name
+          versionless_id = azurerm_key_vault_secret.portal_bots_app_client_id.versionless_id
+        }
+        client_secret = {
+          name           = azurerm_key_vault_secret.portal_bots_app_client_secret.name
+          versionless_id = azurerm_key_vault_secret.portal_bots_app_client_secret.versionless_id
+        }
+      }
+    }
+  }
+}
