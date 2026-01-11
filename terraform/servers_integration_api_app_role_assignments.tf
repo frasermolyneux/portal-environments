@@ -1,6 +1,8 @@
 locals {
   servers_integration_api_service_account_identity_keys = toset([
     "environments_api_management_identity",
+    "repository_funcapp_identity",
+    "public_webapp_identity"
   ])
 
   servers_integration_api_service_account_role_id = one([
