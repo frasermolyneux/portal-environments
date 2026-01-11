@@ -19,7 +19,7 @@ sql_admin_aad_group_members = [
 
 app_configuration_sku = "developer"
 
-app_configs = ["repository-webapi-v1-prd", "repository-webapi-v2-prd", "repository-integration-tests-prd"]
+app_configs = ["repository-webapi-v1-prd", "repository-webapi-v2-prd", "repository-integration-tests-prd", "servers-integration-webapi-v1-prd"]
 
 tags = {
   Environment = "prd",

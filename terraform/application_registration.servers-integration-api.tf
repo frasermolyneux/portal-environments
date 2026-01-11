@@ -30,3 +30,11 @@ resource "azuread_service_principal" "servers_integration_api_service_principal"
     data.azuread_client_config.current.object_id
   ]
 }
+
+resource "azuread_application_password" "servers_integration_primary" {
+  application_id = azuread_application.servers_integration_api_application.id
+
+  rotate_when_changed = {
+    rotation = time_rotating.thirty_days.id
+  }
+}

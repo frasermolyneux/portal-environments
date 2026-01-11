@@ -36,6 +36,7 @@ locals {
   portal_bots_key_vault_name                = substr(format("kv-bot-%s-%s", random_id.portal_bots.hex, var.location), 0, 24)
 
   # Static Naming
+  servers_integration_namespace          = "XtremeIdiots.Portal.Integrations.Servers.Api.V1"
   repository_webapi_namespace_v1         = "XtremeIdiots.Portal.Repository.Api.V1"
   repository_webapi_namespace_v2         = "XtremeIdiots.Portal.Repository.Api.V2"
   repository_integration_tests_namespace = "XtremeIdiots.Portal.Repository.IntegrationTests"
