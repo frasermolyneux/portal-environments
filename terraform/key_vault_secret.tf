@@ -1,7 +1,8 @@
 resource "azurerm_key_vault_secret" "config_secret" {
   for_each = { for each in local.config_secret_keys : each.key => each }
 
-  name         = lower(regexreplace(each.value.key_name, "[^0-9A-Za-z-]", "-"))
+  // Rebuild the name from alphanumeric segments joined with dashes to satisfy KV naming rules
+  name         = lower(join("-", regexall("[0-9A-Za-z]+", each.value.key_name)))
   value        = "placeholder"
   key_vault_id = azurerm_key_vault.config_kv[each.value.namespace].id
 
