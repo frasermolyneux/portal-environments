@@ -29,49 +29,41 @@ tags = {
 }
 
 managed_identities = {
-  environments_api_management_identity = {
-    name_suffix = "api-management"
-    namespaces  = []
+  api_management = {
+    namespaces = []
   }
 
-  core_sql_server_identity = {
-    name_suffix       = "sql-server"
+  sql_server = {
     namespaces        = []
     app_config_reader = false
   }
 
-  repository_webapi_identity = {
-    name_suffix = "repository-webapi"
+  repository = {
     namespaces = [
       "XtremeIdiots.Portal.Repository.Api.V1",
       "XtremeIdiots.Portal.Repository.Api.V2"
     ]
   }
 
-  servers_integration_webapi_identity = {
-    name_suffix = "servers-integration-webapi"
+  servers_integration = {
     namespaces = [
       "XtremeIdiots.Portal.Integrations.Servers.Api.V1"
     ]
   }
 
-  public_webapp_identity = {
-    name_suffix = "webapp"
-    namespaces  = []
+  web = {
+    namespaces = []
   }
 
-  event_ingest_funcapp_identity = {
-    name_suffix = "eventingest-funcapp"
-    namespaces  = []
+  event_ingest = {
+    namespaces = []
   }
 
-  sync_funcapp_identity = {
-    name_suffix = "sync-funcapp"
-    namespaces  = []
+  sync = {
+    namespaces = []
   }
 
-  repository_funcapp_identity = {
-    name_suffix = "repository-funcapp"
-    namespaces  = []
+  repository_func = {
+    namespaces = []
   }
 }

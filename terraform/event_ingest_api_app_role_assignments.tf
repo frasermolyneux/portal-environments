@@ -1,6 +1,6 @@
 locals {
   event_ingest_api_event_generator_identity_keys = toset([
-    "environments_api_management_identity",
+    "api_management"
   ])
 
   event_ingest_api_event_generator_role_id = one([

@@ -1,11 +1,11 @@
 locals {
   repository_api_service_account_identity_keys = toset([
-    "environments_api_management_identity",
-    "public_webapp_identity",
-    "event_ingest_funcapp_identity",
-    "sync_funcapp_identity",
-    "repository_funcapp_identity",
-    "servers_integration_webapi_identity"
+    "api_management",
+    "web",
+    "event_ingest",
+    "sync",
+    "repository_func",
+    "servers_integration"
   ])
 
   repository_api_service_account_role_id = one([

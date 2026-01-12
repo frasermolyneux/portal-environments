@@ -45,7 +45,7 @@ locals {
 locals {
   managed_identities = {
     for key, identity in var.managed_identities : key => {
-      name              = format("id-portal-%s-%s", identity.name_suffix, var.environment)
+      name              = format("id-portal-%s-%s", replace(key, "_", "-"), var.environment)
       namespaces        = identity.namespaces
       tags              = merge(var.tags, identity.tags)
       app_config_reader = identity.app_config_reader

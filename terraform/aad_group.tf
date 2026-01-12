@@ -29,12 +29,12 @@ resource "azuread_group" "sql_repository_writers_group" {
   administrative_unit_ids = [local.workload_administrative_unit.administrative_unit_object_id]
 }
 
-resource "azuread_group_member" "sql_repository_readers_repository_webapi_identity" {
+resource "azuread_group_member" "sql_repository_readers_repository_identity" {
   group_object_id  = azuread_group.sql_repository_readers_group.object_id
-  member_object_id = azurerm_user_assigned_identity.managed["repository_webapi_identity"].principal_id
+  member_object_id = azurerm_user_assigned_identity.managed["repository_identity"].principal_id
 }
 
-resource "azuread_group_member" "sql_repository_writers_repository_webapi_identity" {
+resource "azuread_group_member" "sql_repository_writers_repository_identity" {
   group_object_id  = azuread_group.sql_repository_writers_group.object_id
-  member_object_id = azurerm_user_assigned_identity.managed["repository_webapi_identity"].principal_id
+  member_object_id = azurerm_user_assigned_identity.managed["repository_identity"].principal_id
 }
