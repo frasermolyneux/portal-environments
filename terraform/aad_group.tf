@@ -13,6 +13,11 @@ resource "azuread_group_member" "sql_admins" {
   member_object_id = data.azuread_service_principal.sql_admin_members[each.value].object_id
 }
 
+resource "azuread_group_member" "sql_admins_web_identity" {
+  group_object_id  = azuread_group.sql_admin_group.object_id
+  member_object_id = azurerm_user_assigned_identity.managed["web"].principal_id
+}
+
 resource "azuread_group" "sql_repository_readers_group" {
   display_name     = local.sql_repository_readers_group_name
   owners           = [data.azuread_client_config.current.object_id]
