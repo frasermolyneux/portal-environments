@@ -5,6 +5,7 @@ locals {
     "event_ingest_funcapp_identity",
     "sync_funcapp_identity",
     "repository_funcapp_identity",
+    "servers_integration_webapi_identity"
   ])
 
   repository_api_service_account_role_id = one([
