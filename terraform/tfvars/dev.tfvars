@@ -19,7 +19,7 @@ sql_admin_aad_group_members = [
 
 app_configuration_sku = "free"
 
-app_configs = ["repository-webapi-v1-dev", "repository-webapi-v2-dev", "repository-integration-tests-dev", "servers-integration-webapi-v1-dev"]
+app_configs = ["repository-webapi-v1-dev", "repository-webapi-v2-dev", "repository-integration-tests-dev", "servers-integration-webapi-v1-dev", "portal-web-dev"]
 
 tags = {
   Environment = "dev",
@@ -52,7 +52,9 @@ managed_identities = {
   }
 
   web = {
-    namespaces = []
+    namespaces = [
+      "XtremeIdiots.Portal.Web"
+    ]
   }
 
   event_ingest = {

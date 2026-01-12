@@ -137,3 +137,36 @@ resource "azurerm_app_configuration_key" "repository_integration_tests_client_se
 
   vault_key_reference = azurerm_key_vault_secret.repository_integration_tests_app_client_secret.versionless_id
 }
+
+// Portal Web application configuration (non-secret values)
+resource "azurerm_app_configuration_key" "portal_web_repository_base_url" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "RepositoryApi:BaseUrl"
+  label = var.environment
+  value = "${azurerm_api_management.apim.gateway_url}/repository"
+}
+
+resource "azurerm_app_configuration_key" "portal_web_repository_audience" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "RepositoryApi:ApplicationAudience"
+  label = var.environment
+  value = one(azuread_application.repository_api_application.identifier_uris)
+}
+
+resource "azurerm_app_configuration_key" "portal_web_servers_integration_base_url" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ServersIntegrationApi:BaseUrl"
+  label = var.environment
+  value = "${azurerm_api_management.apim.gateway_url}/servers-integration"
+}
+
+resource "azurerm_app_configuration_key" "portal_web_servers_integration_audience" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ServersIntegrationApi:ApplicationAudience"
+  label = var.environment
+  value = one(azuread_application.servers_integration_api_application.identifier_uris)
+}

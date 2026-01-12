@@ -1,0 +1,25 @@
+{
+    "label": "prd",
+    "namespace": "XtremeIdiots.Portal.Web",
+    "keys": [
+        {
+            "key": "XtremeIdiots:Forums:BaseUrl",
+            "value": "https://www.xtremeidiots.com"
+        }
+    ],
+    "secret_keys": [
+        {
+            "key": "XtremeIdiots:Forums:ApiKey"
+        },
+        {
+            "key": "XtremeIdiots:Auth:ClientId"
+        },
+        {
+            "key": "XtremeIdiots:Auth:ClientSecret"
+        },
+        {
+            "key": "ProxyCheck:ApiKey"
+        }
+    ],
+    "features": []
+}
