@@ -14,7 +14,7 @@ platform_workloads_state = {
 
 sql_admin_aad_group_members = [
   "spn-portal-repository-development",
-  "spn-xtremeidiots-portal-development"
+  "spn-portal-web-development"
 ]
 
 app_configuration_sku = "free"
