@@ -65,12 +65,12 @@ graph TD
 
 ## Quick Reference
 
-| Scenario           | Workflow       | Trigger                  | Terraform     | Deploy |
-| ------------------ | -------------- | ------------------------ | ------------- | ------ |
-| Feature commit     | build-and-test | Push to feature/*        | Dev plan      | ❌     |
-| PR validation      | pr-verify      | PR to main               | Dev plan      | ❌     |
-| Merge to main      | deploy-prd     | Push to main / Thu 3am   | Dev+Prd apply | ✅     |
-| Manual dev refresh | deploy-dev     | Manual dispatch          | Dev apply     | ✅     |
+| Scenario           | Workflow       | Trigger                | Terraform     | Deploy |
+| ------------------ | -------------- | ---------------------- | ------------- | ------ |
+| Feature commit     | build-and-test | Push to feature/*      | Dev plan      | ❌      |
+| PR validation      | pr-verify      | PR to main             | Dev plan      | ❌      |
+| Merge to main      | deploy-prd     | Push to main / Thu 3am | Dev+Prd apply | ✅      |
+| Manual dev refresh | deploy-dev     | Manual dispatch        | Dev apply     | ✅      |
 
 ## Environment Variables
 
