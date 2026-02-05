@@ -3,12 +3,12 @@ name: Deploy Dev
 on:
   workflow_dispatch:
 
-permissions:
-  contents: read
-  id-token: write
 
 jobs:
   terraform-plan-and-apply-dev:
+    permissions:
+      contents: read
+      id-token: write
     environment: Development
     runs-on: ubuntu-latest
     concurrency:
