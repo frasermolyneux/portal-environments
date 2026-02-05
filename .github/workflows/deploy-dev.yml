@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
 
 
+permissions: read-all
+
 jobs:
   terraform-plan-and-apply-dev:
     permissions:

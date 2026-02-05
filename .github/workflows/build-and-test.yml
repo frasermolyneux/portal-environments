@@ -8,6 +8,8 @@ on:
       - "hotfix/**"
 
 
+permissions: read-all
+
 jobs:
   terraform-plan-dev:
     permissions:

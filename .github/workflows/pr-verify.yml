@@ -9,6 +9,8 @@ on:
     types: [opened, synchronize, reopened, ready_for_review]
 
 
+permissions: read-all
+
 jobs:
   terraform-plan-dev:
     permissions:
