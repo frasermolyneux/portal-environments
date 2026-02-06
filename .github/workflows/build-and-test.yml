@@ -7,12 +7,14 @@ on:
       - "bugfix/**"
       - "hotfix/**"
 
-permissions:
-  contents: read
-  id-token: write
+
+permissions: read-all
 
 jobs:
   terraform-plan-dev:
+    permissions:
+      contents: read
+      id-token: write
     runs-on: ubuntu-latest
     environment: Development
     concurrency:

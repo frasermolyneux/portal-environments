@@ -8,15 +8,17 @@ on:
   schedule:
     - cron: "0 3 * * 4"
 
-permissions:
-  contents: read
-  id-token: write
+
+permissions: read-all
 
 concurrency:
   group: ${{ github.workflow }}
 
 jobs:
   terraform-plan-and-apply-dev:
+    permissions:
+      contents: read
+      id-token: write
     environment: Development
     runs-on: ubuntu-latest
     concurrency:
@@ -32,6 +34,9 @@ jobs:
           AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
 
   terraform-plan-and-apply-prd:
+    permissions:
+      contents: read
+      id-token: write
     environment: Production
     needs: terraform-plan-and-apply-dev
     runs-on: ubuntu-latest
