@@ -16,10 +16,7 @@ permissions: read-all
 
 jobs:
   devops-secure-scanning:
-    permissions:
-      contents: read
-      actions: read
-      security-events: write
+    permissions: read-all
     uses: frasermolyneux/actions/.github/workflows/devops-secure-scanning.yml@main
 
   dependency-review:
