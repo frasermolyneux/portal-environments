@@ -1,5 +1,8 @@
 name: Dependabot Auto-Merge
-on: pull_request
+on:
+  pull_request:
+    branches:
+      - main
 
 permissions: {}
 
@@ -9,11 +12,12 @@ jobs:
       contents: write
       pull-requests: write
     runs-on: ubuntu-latest
+
     if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
     - name: Dependabot metadata
       id: metadata
-      uses: dependabot/fetch-metadata@v2.5.0
+      uses: dependabot/fetch-metadata@v2
       with:
         github-token: "${{ secrets.GITHUB_TOKEN }}"
     - name: Enable auto-merge for Dependabot PRs
