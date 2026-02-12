@@ -1,13 +1,57 @@
 # Copilot Instructions
 
-- **Purpose**: Terraform-only stack that provisions portal environment assets: App Configuration, Key Vaults, API Management, Azure AD app registrations/service principals (Repository APIs v1/v2, Event Ingest, Servers Integration, Portal Bots, integration tests), SQL admin/reader/writer groups, and managed identities with scoped role assignments.
-- **State & inputs**: Terraform >=1.14.3 with azurerm ~>4.59 and azuread ~>3.0. Provide `subscription_id`, `environment`, `location`, `workload_name` (defaults portal-environments), and `platform_workloads_state` object so `remote_state.tf` can pull workload resource groups/backends from platform-workloads. Backend configs live under `terraform/backends/`; tfvars under `terraform/tfvars/`.
-- **App Configuration flow**: `app_configs/*.json` drives config creation (label, namespace, `keys`, `secret_keys`). `locals.tf` expands these into `config_keys`/`config_secret_keys`; `app_configuration_key.tf` writes App Config entries, vault-references secret keys, and injects dynamic keys for repository web APIs v1/v2, servers integration, and portal web base URLs/audiences. Local auth is disabled; proxy auth pass-through is enabled.
-- **Key Vault usage**: `key_vault.tf` creates per-namespace vaults plus a dedicated Portal Bots vault (RBAC enabled, purge protection, allow Azure services). `key_vault_secret.tf` seeds placeholder secrets for `secret_keys` (ignore_changes on values) and writes dynamic client IDs/passwords/tenant IDs for generated app registrations. Vault names derive from random IDs to satisfy length limits.
-- **API Management**: `api_management.tf` builds a consumption APIM instance using the managed identity `managed["api_management"]`; outputs expose name/id/location/gateway URL plus root paths for repository, event-ingest, and servers-integration APIs.
-- **AAD apps & roles**: `application_registration.*.tf` files create app registrations/service principals with ServiceAccount roles and rotating passwords (`time_rotating.tf`). App role assignment files bind these roles to downstream clients/identities. Repository integration tests get their own app registration with secrets exported to Key Vault and App Config.
-- **Managed identities**: Supply the `managed_identities` map input (`namespaces`, optional `app_config_reader`, extra `tags`). `user_assigned_identity.tf` creates identities; `role_assignments.tf` grants App Configuration Data Reader and Key Vault Secrets User on the namespaces listed. APIM identity is automatically created via `managed["api_management"]`.
-- **Resource naming**: Names combine workload/environment/location with random IDs (e.g., `apim-portal-{env}-{location}-{rand}`, `appcs-portal-{env}-{location}-{rand}`, `kv-<random>-<location>`). Resource groups are resolved from platform-workloads remote state (`data.resource_group.rg`).
-- **Outputs**: `outputs.tf` returns App Configuration metadata, managed identity ids/client_ids, APIM details, SQL group object_ids, and app registration/service principal info (identifier URIs, audiences, gateway endpoints, portal bots Key Vault secret names).
-- **Workflows**: GitHub Actions `build-and-test` (Dev plan), `pr-verify` (Dev plan + optional `run-prd-plan`), `deploy-dev` (manual Dev apply), `deploy-prd` (main push + weekly schedule → Dev apply then Prd), `codequality`, `dependabot-automerge`, and `destroy-environment`. OIDC env vars (`AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_SUBSCRIPTION_ID`) are defined per environment; concurrency guards serialize dev/prd runs.
-- **Local loop**: Typical commands: `terraform -chdir=terraform init -backend-config=backends/dev.backend.hcl` then `terraform -chdir=terraform plan -var-file=tfvars/dev.tfvars`. Ensure `app_configs` input lists the JSON files matching your environment (dev/prd variants) and provide Key Vault/App Config permissions to the operator identity when applying.
+## Project Overview
+
+Terraform-only repository that provisions portal environment infrastructure on Azure: App Configuration with Key Vault-backed secrets, API Management (consumption tier), Azure AD app registrations/service principals (Repository APIs v1/v2, Event Ingest, Servers Integration, Portal Bots, integration tests), SQL admin/reader/writer groups, and managed identities with scoped role assignments.
+
+## Technology Stack
+
+- **Infrastructure**: Terraform >= 1.14.3 with azurerm ~> 4.59, azuread ~> 3.0, random ~> 3.8
+- **Cloud**: Microsoft Azure (App Configuration, Key Vault, API Management, Azure AD, Managed Identities)
+- **CI/CD**: GitHub Actions with OIDC authentication to Azure
+- **State**: Remote state in Azure Storage; depends on platform-workloads remote state for resource groups/backends
+
+## Repository Structure
+
+- `terraform/` — All Terraform configuration files (root module)
+- `terraform/app_configs/` — JSON files driving App Configuration and Key Vault entries
+- `terraform/backends/` — Backend configuration files (dev.backend.hcl, prd.backend.hcl)
+- `terraform/tfvars/` — Variable files per environment (dev.tfvars, prd.tfvars)
+- `.github/workflows/` — CI/CD workflow definitions
+- `docs/` — Project documentation
+
+## Key Patterns
+
+- Resource names combine workload/environment/location with random IDs (e.g., `apim-portal-{env}-{location}-{rand}`)
+- `app_configs/*.json` drives config creation with label, namespace, keys, and secret_keys
+- `locals.tf` expands JSON configs into `config_keys`/`config_secret_keys` for App Configuration entries
+- Key Vault names use random IDs to satisfy Azure naming length limits
+- `application_registration.*.tf` files create app registrations with ServiceAccount roles and rotating passwords
+- `role_assignments.tf` grants App Configuration Data Reader and Key Vault Secrets User per namespace
+- Resource groups are resolved from platform-workloads remote state, not created here
+
+## Workflow Summary
+
+- **build-and-test**: Runs Terraform plan for Dev on feature branch pushes
+- **pr-verify**: Validates PRs with Dev plan; Prd plan requires `run-prd-plan` label
+- **deploy-dev**: Manual dispatch for Dev plan+apply
+- **deploy-prd**: Triggered on main push, weekly schedule, or manual dispatch; applies Dev then Prd
+- **codequality**: Scheduled code quality scanning
+- **dependabot-automerge**: Auto-merges Dependabot PRs
+- **destroy-environment**: Manual environment teardown
+
+## Local Development
+
+```bash
+terraform -chdir=terraform init -backend-config=backends/dev.backend.hcl
+terraform -chdir=terraform plan -var-file=tfvars/dev.tfvars
+```
+
+## Coding Guidelines
+
+- Follow HashiCorp Terraform style conventions
+- Use `terraform fmt` before committing
+- Keep resource definitions in logically grouped files (e.g., one file per app registration)
+- Use `ignore_changes` lifecycle rules for secrets that are managed externally after initial creation
+- All Key Vaults must use RBAC authorization with purge protection enabled
+- Provide descriptive variable descriptions and use sensible defaults where appropriate
