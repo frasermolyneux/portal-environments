@@ -1,7 +1,5 @@
 name: PR Verify
 
-# Terraform-only repo: dev plan always runs (skips drafts). 'deploy-dev' runs plan+apply instead. Prd plan requires 'run-prd-plan'.
-
 on:
   pull_request:
     branches:
