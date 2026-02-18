@@ -138,6 +138,64 @@ resource "azurerm_app_configuration_key" "repository_integration_tests_client_se
   vault_key_reference = azurerm_key_vault_secret.repository_integration_tests_app_client_secret.versionless_id
 }
 
+// Content Safety configuration
+resource "azurerm_app_configuration_key" "content_safety_endpoint" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ContentSafety:Endpoint"
+  label = var.environment
+  value = azurerm_cognitive_account.content_safety.endpoint
+}
+
+resource "azurerm_app_configuration_key" "content_safety_bot_admin_id" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ContentSafety:BotAdminId"
+  label = var.environment
+  value = "21145"
+}
+
+resource "azurerm_app_configuration_key" "content_safety_severity_threshold" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ContentSafety:SeverityThreshold"
+  label = var.environment
+  value = "4"
+}
+
+resource "azurerm_app_configuration_key" "content_safety_new_player_window_days" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ContentSafety:NewPlayerWindowDays"
+  label = var.environment
+  value = "7"
+}
+
+resource "azurerm_app_configuration_key" "content_safety_min_message_length" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ContentSafety:MinMessageLength"
+  label = var.environment
+  value = "5"
+}
+
+resource "azurerm_app_configuration_key" "content_safety_moderate_chat_tag_name" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ContentSafety:ModerateChatTagName"
+  label = var.environment
+  value = "moderate-chat"
+}
+
+resource "azurerm_app_configuration_feature" "chat_toxicity_detection" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  name        = "ChatToxicityDetection"
+  label       = var.environment
+  enabled     = false
+  description = "Enable AI-powered chat toxicity detection in event ingest pipeline"
+}
+
 // Portal Web application configuration (non-secret values)
 resource "azurerm_app_configuration_key" "portal_web_repository_base_url" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
