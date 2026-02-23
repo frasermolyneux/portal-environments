@@ -33,3 +33,15 @@ resource "azurerm_role_assignment" "portal_bots_key_vault_reader" {
   role_definition_name = "Key Vault Secrets User"
   principal_id         = azuread_service_principal.portal_bots_service_principal.object_id
 }
+
+resource "azurerm_role_assignment" "managed_identity_shared_kv_reader" {
+  for_each = {
+    for key, identity in local.managed_identities :
+    key => identity
+    if identity.app_config_reader
+  }
+
+  scope                = azurerm_key_vault.shared.id
+  role_definition_name = "Key Vault Secrets User"
+  principal_id         = azurerm_user_assigned_identity.managed[each.key].principal_id
+}

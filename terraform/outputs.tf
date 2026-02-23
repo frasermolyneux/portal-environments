@@ -147,3 +147,12 @@ output "portal_bots" {
     }
   }
 }
+
+output "shared_key_vault" {
+  description = "Shared Key Vault for cross-application secrets referenced via App Configuration."
+  value = {
+    id                  = azurerm_key_vault.shared.id
+    name                = azurerm_key_vault.shared.name
+    resource_group_name = azurerm_key_vault.shared.resource_group_name
+  }
+}

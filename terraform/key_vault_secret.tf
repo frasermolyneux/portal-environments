@@ -104,3 +104,40 @@ resource "azurerm_key_vault_secret" "portal_bots_app_client_secret" {
 
   content_type = "text/plain"
 }
+
+// Shared Key Vault secrets (used by multiple portal-* applications via App Configuration KV references)
+resource "azurerm_key_vault_secret" "shared_forums_api_key" {
+  name         = "xtremeidiots-forums-api-key"
+  value        = "placeholder"
+  key_vault_id = azurerm_key_vault.shared.id
+
+  content_type = "text/plain"
+
+  lifecycle {
+    ignore_changes = [value]
+  }
+}
+
+resource "azurerm_key_vault_secret" "shared_map_redirect_api_key" {
+  name         = "map-redirect-api-key"
+  value        = "placeholder"
+  key_vault_id = azurerm_key_vault.shared.id
+
+  content_type = "text/plain"
+
+  lifecycle {
+    ignore_changes = [value]
+  }
+}
+
+resource "azurerm_key_vault_secret" "shared_google_maps_api_key" {
+  name         = "google-maps-api-key"
+  value        = "placeholder"
+  key_vault_id = azurerm_key_vault.shared.id
+
+  content_type = "text/plain"
+
+  lifecycle {
+    ignore_changes = [value]
+  }
+}

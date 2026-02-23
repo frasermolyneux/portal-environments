@@ -1,16 +1,8 @@
 {
     "label": "dev",
     "namespace": "XtremeIdiots.Portal.Web",
-    "keys": [
-        {
-            "key": "XtremeIdiots:Forums:BaseUrl",
-            "value": "https://www.xtremeidiots.com"
-        }
-    ],
+    "keys": [],
     "secret_keys": [
-        {
-            "key": "XtremeIdiots:Forums:ApiKey"
-        },
         {
             "key": "XtremeIdiots:Auth:ClientId"
         },

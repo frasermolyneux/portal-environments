@@ -15,7 +15,7 @@
 
 ## Overview
 
-This repository contains the Terraform configuration for provisioning portal environment infrastructure on Azure. It manages App Configuration with Key Vault-backed secrets, API Management, Azure AD app registrations and service principals (Repository APIs v1/v2, Event Ingest, Servers Integration, Portal Bots, integration tests), SQL admin/reader/writer groups, and managed identities with scoped role assignments. State is sourced from platform-workloads remote outputs to reuse resource groups and backends, while `app_configs/*.json` files drive App Configuration and Key Vault population alongside dynamic keys for produced identities. GitHub Actions workflows run OIDC-authenticated Terraform plans and applies for Development and Production environments.
+This repository contains the Terraform configuration for provisioning portal environment infrastructure on Azure. It manages App Configuration with Key Vault-backed secrets, API Management, Azure AD app registrations and service principals (Repository APIs v1/v2, Event Ingest, Servers Integration, Portal Bots, integration tests), SQL admin/reader/writer groups, and managed identities with scoped role assignments. State is sourced from platform-workloads remote outputs to reuse resource groups and backends, while `app_configs/*.json` files drive App Configuration and Key Vault population alongside dynamic keys for identities, shared configuration (URLs, business constants, forum IDs, geo-location API), per-app settings (App Insights sampling, data retention), and cross-cutting secrets via a shared Key Vault. GitHub Actions workflows run OIDC-authenticated Terraform plans and applies for Development and Production environments.
 
 ## Contributing
 

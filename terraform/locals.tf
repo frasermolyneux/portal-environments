@@ -34,6 +34,7 @@ locals {
   servers_integration_app_registration_name = "portal-servers-integration-${var.environment}"
   portal_bots_app_registration_name         = "portal-bots-${var.environment}"
   portal_bots_key_vault_name                = substr(format("kv-bot-%s-%s", random_id.portal_bots.hex, var.location), 0, 24)
+  shared_key_vault_name                     = substr(format("kv-sh-%s-%s", random_id.shared_config.hex, var.location), 0, 24)
 
   # Static Naming
   servers_integration_namespace          = "XtremeIdiots.Portal.Integrations.Servers.Api.V1"
