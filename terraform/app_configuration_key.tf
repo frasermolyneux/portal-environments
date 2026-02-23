@@ -277,7 +277,7 @@ resource "azurerm_app_configuration_key" "shared_ftp_certificate_thumbprint" {
 }
 
 // Shared URL configuration keys
-resource "azurerm_app_configuration_key" "shared_forum_base_url" {
+resource "azurerm_app_configuration_key" "shared_forums_topic_base_url" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
 
   key   = "XtremeIdiots:Forums:TopicBaseUrl"
@@ -291,14 +291,6 @@ resource "azurerm_app_configuration_key" "shared_portal_base_url" {
   key   = "XtremeIdiots:PortalBaseUrl"
   label = var.environment
   value = "https://portal.xtremeidiots.com"
-}
-
-resource "azurerm_app_configuration_key" "shared_forum_site_url" {
-  configuration_store_id = azurerm_app_configuration.app_configuration.id
-
-  key   = "XtremeIdiots:Forums:SiteUrl"
-  label = var.environment
-  value = "https://www.xtremeidiots.com"
 }
 
 resource "azurerm_app_configuration_key" "shared_proxycheck_base_url" {
