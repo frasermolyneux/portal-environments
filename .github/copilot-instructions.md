@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Terraform-only repository that provisions portal environment infrastructure on Azure: App Configuration with Key Vault-backed secrets, API Management (consumption tier), Azure AD app registrations/service principals (Repository APIs v1/v2, Event Ingest, Servers Integration, Portal Bots, integration tests), SQL admin/reader/writer groups, and managed identities with scoped role assignments.
+Terraform-only repository that provisions portal environment infrastructure on Azure: App Configuration with Key Vault-backed secrets, API Management (consumption tier), Azure AD app registrations/service principals (Repository APIs v1/v2, Event Ingest, Servers Integration, Portal Bots, integration tests), SQL admin/reader/writer groups, managed identities with scoped role assignments, and a shared Key Vault for cross-cutting secrets.
 
 ## Technology Stack
 
@@ -27,7 +27,10 @@ Terraform-only repository that provisions portal environment infrastructure on A
 - `locals.tf` expands JSON configs into `config_keys`/`config_secret_keys` for App Configuration entries
 - Key Vault names use random IDs to satisfy Azure naming length limits
 - `application_registration.*.tf` files create app registrations with ServiceAccount roles and rotating passwords
-- `role_assignments.tf` grants App Configuration Data Reader and Key Vault Secrets User per namespace
+- `app_configuration_key.tf` defines dynamic keys beyond JSON-driven configs: shared URLs, business constants (forum IDs, defaults), geo-location API, Google config, per-app App Insights sampling, SQL resilience, and data retention
+- A shared Key Vault (`azurerm_key_vault.shared`) stores cross-cutting secrets (forums API key, map redirect API key) with RBAC for all managed identities
+- `role_assignments.tf` grants App Configuration Data Reader and Key Vault Secrets User per namespace, Key Vault Secrets User on the shared KV for all managed identities, and Cognitive Services User for content safety
+- The `geo_location_api` variable defines per-consumer Key Vault references with app-scoped App Config prefixes
 - Resource groups are resolved from platform-workloads remote state, not created here
 
 ## Workflow Summary

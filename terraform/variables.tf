@@ -52,3 +52,15 @@ variable "managed_identities" {
   }))
   default = {}
 }
+
+variable "geo_location_api" {
+  description = "GeoLocation API configuration for portal consumers."
+  type = object({
+    base_url             = string
+    application_audience = string
+    consumers = map(object({
+      app_config_prefix   = string
+      keyvault_secret_uri = string
+    }))
+  })
+}

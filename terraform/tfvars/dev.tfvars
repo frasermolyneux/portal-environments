@@ -17,7 +17,7 @@ sql_admin_aad_group_members = [
   "spn-portal-web-development"
 ]
 
-app_configuration_sku = "free"
+app_configuration_sku = "developer"
 
 app_configs = ["repository-webapi-v1-dev", "repository-webapi-v2-dev", "repository-integration-tests-dev", "servers-integration-webapi-v1-dev", "portal-web-dev"]
 
@@ -67,5 +67,20 @@ managed_identities = {
 
   repository_func = {
     namespaces = []
+  }
+}
+
+geo_location_api = {
+  base_url             = "https://apim-geo-location-prd-swedencentral-6f10eaac01a0.azure-api.net/geolocation"
+  application_audience = "api://e56a6947-bb9a-4a6e-846a-1f118d1c3a14/geolocation-api-prd"
+  consumers = {
+    web = {
+      app_config_prefix   = "XtremeIdiots.Portal.Web"
+      keyvault_secret_uri = "https://kv-03bc577ff535-swe.vault.azure.net/secrets/portal-web-dev-apim-subscription-key"
+    }
+    repository_func = {
+      app_config_prefix   = "XtremeIdiots.Portal.Repository.App"
+      keyvault_secret_uri = "https://kv-2c8ee2a142b1-swe.vault.azure.net/secrets/portal-repository-func-dev-apim-subscription-key"
+    }
   }
 }

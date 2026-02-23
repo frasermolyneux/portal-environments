@@ -69,3 +69,18 @@ managed_identities = {
     namespaces = []
   }
 }
+
+geo_location_api = {
+  base_url             = "https://apim-geo-location-prd-swedencentral-6f10eaac01a0.azure-api.net/geolocation"
+  application_audience = "api://e56a6947-bb9a-4a6e-846a-1f118d1c3a14/geolocation-api-prd"
+  consumers = {
+    web = {
+      app_config_prefix   = "XtremeIdiots.Portal.Web"
+      keyvault_secret_uri = "https://kv-18ac60675297-swe.vault.azure.net/secrets/portal-web-prd-apim-subscription-key"
+    }
+    repository_func = {
+      app_config_prefix   = "XtremeIdiots.Portal.Repository.App"
+      keyvault_secret_uri = "https://kv-11624f0ecabd-swe.vault.azure.net/secrets/portal-repository-func-prd-apim-subscription-key"
+    }
+  }
+}
