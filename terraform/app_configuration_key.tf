@@ -526,3 +526,14 @@ resource "azurerm_app_configuration_key" "forums_bans" {
   label = var.environment
   value = each.value
 }
+
+// Sentinel key for dynamic configuration refresh
+// Update the value (to any new value) after making configuration changes
+// to trigger all portal-* apps to reload their configuration.
+resource "azurerm_app_configuration_key" "sentinel" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "Sentinel"
+  label = var.environment
+  value = timestamp()
+}
