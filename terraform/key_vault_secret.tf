@@ -132,12 +132,8 @@ resource "azurerm_key_vault_secret" "shared_map_redirect_api_key" {
 
 resource "azurerm_key_vault_secret" "shared_google_maps_api_key" {
   name         = "google-maps-api-key"
-  value        = "placeholder"
+  value        = google_apikeys_key.portal_maps.key_string
   key_vault_id = azurerm_key_vault.shared.id
 
   content_type = "text/plain"
-
-  lifecycle {
-    ignore_changes = [value]
-  }
 }

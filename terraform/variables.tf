@@ -64,3 +64,13 @@ variable "geo_location_api" {
     }))
   })
 }
+
+variable "gcp_project_id" {
+  description = "GCP project ID for Google Maps API key management"
+  type        = string
+}
+
+variable "google_maps_allowed_referrers" {
+  description = "Allowed HTTP referrer domains for the Google Maps API key"
+  type        = list(string)
+}
