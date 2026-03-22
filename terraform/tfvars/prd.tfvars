@@ -88,6 +88,5 @@ geo_location_api = {
 gcp_project_id = "gcp-mx-io-portal-environments"
 
 google_maps_allowed_referrers = [
-  "https://portal.xtremeidiots.com/*",
-  "https://*.azurewebsites.net/*"
+  "https://portal.xtremeidiots.com/*"
 ]
