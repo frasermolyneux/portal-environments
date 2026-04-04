@@ -196,6 +196,15 @@ resource "azurerm_app_configuration_feature" "chat_toxicity_detection" {
   description = "Enable AI-powered chat toxicity detection in event ingest pipeline"
 }
 
+resource "azurerm_app_configuration_feature" "auto_dlq_replay" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  name        = "AutoDlqReplay"
+  label       = var.environment
+  enabled     = true
+  description = "Enable automatic dead-letter queue replay in event ingest pipeline"
+}
+
 // Portal Web application configuration (non-secret values)
 resource "azurerm_app_configuration_key" "portal_web_repository_base_url" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
