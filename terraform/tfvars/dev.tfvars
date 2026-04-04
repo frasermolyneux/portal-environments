@@ -68,6 +68,14 @@ managed_identities = {
   repository_func = {
     namespaces = []
   }
+
+  server_agent = {
+    namespaces = []
+  }
+
+  server_events = {
+    namespaces = []
+  }
 }
 
 geo_location_api = {

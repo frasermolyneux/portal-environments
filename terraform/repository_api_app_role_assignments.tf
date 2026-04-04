@@ -5,7 +5,9 @@ locals {
     "event_ingest",
     "sync",
     "repository_func",
-    "servers_integration"
+    "servers_integration",
+    "server_agent",
+    "server_events"
   ])
 
   repository_api_service_account_role_id = one([
