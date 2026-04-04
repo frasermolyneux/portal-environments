@@ -190,16 +190,16 @@ resource "azurerm_app_configuration_key" "content_safety_moderate_chat_tag_name"
 resource "azurerm_app_configuration_feature" "chat_toxicity_detection" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
 
-  name        = "ChatToxicityDetection"
+  name        = "EventIngest.ChatToxicityDetection"
   label       = var.environment
-  enabled     = false
+  enabled     = true
   description = "Enable AI-powered chat toxicity detection in event ingest pipeline"
 }
 
 resource "azurerm_app_configuration_feature" "auto_dlq_replay" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
 
-  name        = "AutoDlqReplay"
+  name        = "EventIngest.AutoDlqReplay"
   label       = var.environment
   enabled     = true
   description = "Enable automatic dead-letter queue replay in event ingest pipeline"
