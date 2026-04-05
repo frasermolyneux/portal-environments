@@ -2,6 +2,8 @@ locals {
   servers_integration_api_service_account_identity_keys = toset([
     "api_management",
     "repository_func",
+    "server_agent",
+    "server_events",
     "web"
   ])
 
