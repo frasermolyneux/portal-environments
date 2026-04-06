@@ -90,6 +90,10 @@ geo_location_api = {
       app_config_prefix   = "XtremeIdiots.Portal.Repository.App"
       keyvault_secret_uri = "https://kv-2c8ee2a142b1-swe.vault.azure.net/secrets/portal-repository-func-dev-apim-subscription-key"
     }
+    server_events = {
+      app_config_prefix   = "XtremeIdiots.Portal.Server.Events.Processor.App"
+      keyvault_secret_uri = "https://kv-5c168d6b3996-swe.vault.azure.net/secrets/portal-server-events-dev-apim-subscription-key"
+    }
   }
 }
 
