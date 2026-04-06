@@ -22,16 +22,10 @@ resource "azurerm_role_assignment" "managed_identity_key_vault_reader" {
   principal_id         = azurerm_user_assigned_identity.managed[each.value.identity_key].principal_id
 }
 
-resource "azurerm_role_assignment" "event_ingest_content_safety" {
+resource "azurerm_role_assignment" "server_events_content_safety" {
   scope                = azurerm_cognitive_account.content_safety.id
   role_definition_name = "Cognitive Services User"
-  principal_id         = azurerm_user_assigned_identity.managed["event_ingest"].principal_id
-}
-
-resource "azurerm_role_assignment" "portal_bots_key_vault_reader" {
-  scope                = azurerm_key_vault.portal_bots.id
-  role_definition_name = "Key Vault Secrets User"
-  principal_id         = azuread_service_principal.portal_bots_service_principal.object_id
+  principal_id         = azurerm_user_assigned_identity.managed["server_events"].principal_id
 }
 
 resource "azurerm_role_assignment" "managed_identity_shared_kv_reader" {

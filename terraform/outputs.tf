@@ -78,26 +78,6 @@ output "repository_api" {
   }
 }
 
-output "event_ingest_api" {
-  description = "Event ingest API app registration and service principal metadata for downstream consumers."
-  value = {
-    application = {
-      id                     = azuread_application.event_ingest_api_application.id
-      object_id              = azuread_application.event_ingest_api_application.object_id
-      client_id              = azuread_application.event_ingest_api_application.client_id
-      display_name           = azuread_application.event_ingest_api_application.display_name
-      primary_identifier_uri = one(azuread_application.event_ingest_api_application.identifier_uris)
-    }
-    service_principal = {
-      object_id = azuread_service_principal.event_ingest_api_service_principal.id
-    }
-    api_management = {
-      root_path = "event-ingest"
-      endpoint  = "${azurerm_api_management.apim.gateway_url}/event-ingest"
-    }
-  }
-}
-
 output "servers_integration_api" {
   description = "Servers Integration API app registration and service principal metadata for downstream consumers."
   value = {
@@ -114,36 +94,6 @@ output "servers_integration_api" {
     api_management = {
       root_path = "servers-integration"
       endpoint  = "${azurerm_api_management.apim.gateway_url}/servers-integration"
-    }
-  }
-}
-
-output "portal_bots" {
-  description = "Portal bots app registration, service principal, and Key Vault metadata for downstream consumers."
-  value = {
-    application = {
-      id           = azuread_application.portal_bots_application.id
-      object_id    = azuread_application.portal_bots_application.object_id
-      client_id    = azuread_application.portal_bots_application.client_id
-      display_name = azuread_application.portal_bots_application.display_name
-    }
-    service_principal = {
-      object_id = azuread_service_principal.portal_bots_service_principal.object_id
-    }
-    key_vault = {
-      id                  = azurerm_key_vault.portal_bots.id
-      name                = azurerm_key_vault.portal_bots.name
-      resource_group_name = azurerm_key_vault.portal_bots.resource_group_name
-      secrets = {
-        client_id = {
-          name           = azurerm_key_vault_secret.portal_bots_app_client_id.name
-          versionless_id = azurerm_key_vault_secret.portal_bots_app_client_id.versionless_id
-        }
-        client_secret = {
-          name           = azurerm_key_vault_secret.portal_bots_app_client_secret.name
-          versionless_id = azurerm_key_vault_secret.portal_bots_app_client_secret.versionless_id
-        }
-      }
     }
   }
 }

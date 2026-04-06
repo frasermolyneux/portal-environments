@@ -2,7 +2,6 @@ locals {
   repository_api_service_account_identity_keys = toset([
     "api_management",
     "web",
-    "event_ingest",
     "sync",
     "repository_func",
     "servers_integration",

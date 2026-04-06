@@ -57,10 +57,6 @@ managed_identities = {
     ]
   }
 
-  event_ingest = {
-    namespaces = []
-  }
-
   sync = {
     namespaces = []
   }
