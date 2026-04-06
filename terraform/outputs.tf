@@ -98,6 +98,26 @@ output "servers_integration_api" {
   }
 }
 
+output "sync_api" {
+  description = "Sync API app registration and service principal metadata for downstream consumers."
+  value = {
+    application = {
+      id                     = azuread_application.sync_api_application.id
+      object_id              = azuread_application.sync_api_application.object_id
+      client_id              = azuread_application.sync_api_application.client_id
+      display_name           = azuread_application.sync_api_application.display_name
+      primary_identifier_uri = one(azuread_application.sync_api_application.identifier_uris)
+    }
+    service_principal = {
+      object_id = azuread_service_principal.sync_api_service_principal.id
+    }
+    api_management = {
+      root_path = "sync"
+      endpoint  = "${azurerm_api_management.apim.gateway_url}/sync"
+    }
+  }
+}
+
 output "shared_key_vault" {
   description = "Shared Key Vault for cross-application secrets referenced via App Configuration."
   value = {

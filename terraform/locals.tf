@@ -31,6 +31,7 @@ locals {
   app_registration_name                     = "portal-repository-${var.environment}"
   tests_app_registration_name               = "portal-repository-integration-tests-${var.environment}"
   servers_integration_app_registration_name = "portal-servers-integration-${var.environment}"
+  sync_app_registration_name                = "portal-sync-${var.environment}"
   shared_key_vault_name                     = substr(format("kv-sh-%s-%s", random_id.shared_config.hex, var.location), 0, 24)
 
   # Static Naming
@@ -38,6 +39,7 @@ locals {
   repository_webapi_namespace_v1         = "XtremeIdiots.Portal.Repository.Api.V1"
   repository_webapi_namespace_v2         = "XtremeIdiots.Portal.Repository.Api.V2"
   repository_integration_tests_namespace = "XtremeIdiots.Portal.Repository.IntegrationTests"
+  sync_app_namespace                     = "XtremeIdiots.Portal.Sync.App"
 }
 
 locals {

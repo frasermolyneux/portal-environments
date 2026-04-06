@@ -64,6 +64,15 @@ resource "azurerm_key_vault_secret" "servers_integration_app_client_secret" {
   content_type = "text/plain"
 }
 
+// Sync App
+resource "azurerm_key_vault_secret" "sync_app_client_id" {
+  name         = "azuread-app-client-id-sync"
+  value        = azuread_application.sync_api_application.client_id
+  key_vault_id = azurerm_key_vault.config_kv[local.sync_app_namespace].id
+
+  content_type = "text/plain"
+}
+
 // Repository Integration Tests
 resource "azurerm_key_vault_secret" "repository_integration_tests_app_client_id" {
   name         = "azuread-app-client-id-repository-integration-tests"

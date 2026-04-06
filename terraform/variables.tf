@@ -74,3 +74,5 @@ variable "google_maps_allowed_referrers" {
   description = "Allowed HTTP referrer domains for the Google Maps API key"
   type        = list(string)
 }
+
+

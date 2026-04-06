@@ -115,6 +115,26 @@ resource "azurerm_app_configuration_key" "servers_integration_client_secret" {
   vault_key_reference = azurerm_key_vault_secret.servers_integration_app_client_secret.versionless_id
 }
 
+// Sync App
+resource "azurerm_app_configuration_key" "sync_app_audience" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "${local.sync_app_namespace}:AzureAd:Audience"
+  label = var.environment
+  value = format("api://%s/%s", data.azuread_client_config.current.tenant_id, local.sync_app_registration_name)
+}
+
+resource "azurerm_app_configuration_key" "sync_app_client_id" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  type = "vault"
+
+  key   = "${local.sync_app_namespace}:AzureAd:ClientId"
+  label = var.environment
+
+  vault_key_reference = azurerm_key_vault_secret.sync_app_client_id.versionless_id
+}
+
 // Repository Integration Tests
 resource "azurerm_app_configuration_key" "repository_integration_tests_client_id" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
@@ -193,7 +213,7 @@ resource "azurerm_app_configuration_feature" "chat_toxicity_detection" {
   name        = "EventIngest.ChatToxicityDetection"
   label       = var.environment
   enabled     = true
-  description = "Enable AI-powered chat toxicity detection in event ingest pipeline"
+  description = "Enable AI-powered chat toxicity detection in server events pipeline"
 }
 
 // Portal Web application configuration (non-secret values)
@@ -227,6 +247,23 @@ resource "azurerm_app_configuration_key" "portal_web_servers_integration_audienc
   key   = "ServersIntegrationApi:ApplicationAudience"
   label = var.environment
   value = one(azuread_application.servers_integration_api_application.identifier_uris)
+}
+
+// Sync API configuration keys (for portal-web to call portal-sync)
+resource "azurerm_app_configuration_key" "portal_web_sync_api_base_url" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "SyncApi:BaseUrl"
+  label = var.environment
+  value = "${azurerm_api_management.apim.gateway_url}/sync"
+}
+
+resource "azurerm_app_configuration_key" "portal_web_sync_api_audience" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "SyncApi:ApplicationAudience"
+  label = var.environment
+  value = one(azuread_application.sync_api_application.identifier_uris)
 }
 
 // Shared configuration keys (used by multiple portal-* applications)
@@ -362,10 +399,10 @@ resource "azurerm_app_configuration_key" "geo_location_api_key" {
 resource "azurerm_app_configuration_key" "shared_google_maps_api_key" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
 
-  key                    = "Google:MapsApiKey"
-  type                   = "vault"
-  label                  = var.environment
-  vault_key_reference    = azurerm_key_vault_secret.shared_google_maps_api_key.versionless_id
+  key                 = "Google:MapsApiKey"
+  type                = "vault"
+  label               = var.environment
+  vault_key_reference = azurerm_key_vault_secret.shared_google_maps_api_key.versionless_id
 }
 
 resource "azurerm_app_configuration_key" "shared_google_analytics_id" {
