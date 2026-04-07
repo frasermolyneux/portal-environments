@@ -113,7 +113,7 @@ output "sync_api" {
     }
     api_management = {
       root_path = "sync"
-      endpoint  = "${azurerm_api_management.apim.gateway_url}/sync"
+      endpoint  = "${azurerm_api_management.apim.gateway_url}/sync/v1"
     }
   }
 }

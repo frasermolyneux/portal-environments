@@ -255,7 +255,7 @@ resource "azurerm_app_configuration_key" "portal_web_sync_api_base_url" {
 
   key   = "SyncApi:BaseUrl"
   label = var.environment
-  value = "${azurerm_api_management.apim.gateway_url}/sync"
+  value = "${azurerm_api_management.apim.gateway_url}/sync/v1"
 }
 
 resource "azurerm_app_configuration_key" "portal_web_sync_api_audience" {
