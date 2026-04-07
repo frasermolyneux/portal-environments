@@ -4,6 +4,7 @@ locals {
     "repository_func",
     "server_agent",
     "server_events",
+    "sync",
     "web"
   ])
 
