@@ -405,6 +405,17 @@ resource "azurerm_app_configuration_key" "shared_google_maps_api_key" {
   vault_key_reference = azurerm_key_vault_secret.shared_google_maps_api_key.versionless_id
 }
 
+resource "azurerm_app_configuration_key" "shared_external_widget_hmac_secret" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  type = "vault"
+
+  key   = "XtremeIdiots:ExternalWidget:HmacSecret"
+  label = var.environment
+
+  vault_key_reference = azurerm_key_vault_secret.shared_external_widget_hmac_secret.versionless_id
+}
+
 resource "azurerm_app_configuration_key" "shared_google_analytics_id" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
 

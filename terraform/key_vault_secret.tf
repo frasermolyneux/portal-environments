@@ -130,3 +130,15 @@ resource "azurerm_key_vault_secret" "shared_google_maps_api_key" {
 
   content_type = "text/plain"
 }
+
+resource "azurerm_key_vault_secret" "shared_external_widget_hmac_secret" {
+  name         = "external-widget-hmac-secret"
+  value        = random_password.external_widget_hmac_secret.result
+  key_vault_id = azurerm_key_vault.shared.id
+
+  content_type = "text/plain"
+
+  lifecycle {
+    ignore_changes = [value]
+  }
+}
