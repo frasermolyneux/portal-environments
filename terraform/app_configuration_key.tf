@@ -431,6 +431,7 @@ resource "azurerm_app_configuration_key" "appinsights_initial_sampling" {
     "XtremeIdiots.Portal.Repository.Api.V1"           = "5"
     "XtremeIdiots.Portal.Repository.Api.V2"           = "5"
     "XtremeIdiots.Portal.Integrations.Servers.Api.V1" = "5"
+    "XtremeIdiots.Portal.Server.Agent.App"            = "5"
   }
 
   configuration_store_id = azurerm_app_configuration.app_configuration.id
@@ -446,6 +447,7 @@ resource "azurerm_app_configuration_key" "appinsights_min_sampling" {
     "XtremeIdiots.Portal.Repository.Api.V1"           = "5"
     "XtremeIdiots.Portal.Repository.Api.V2"           = "5"
     "XtremeIdiots.Portal.Integrations.Servers.Api.V1" = "5"
+    "XtremeIdiots.Portal.Server.Agent.App"            = "5"
   }
 
   configuration_store_id = azurerm_app_configuration.app_configuration.id
@@ -461,6 +463,7 @@ resource "azurerm_app_configuration_key" "appinsights_max_sampling" {
     "XtremeIdiots.Portal.Repository.Api.V1"           = "60"
     "XtremeIdiots.Portal.Repository.Api.V2"           = "60"
     "XtremeIdiots.Portal.Integrations.Servers.Api.V1" = "60"
+    "XtremeIdiots.Portal.Server.Agent.App"            = "60"
   }
 
   configuration_store_id = azurerm_app_configuration.app_configuration.id
@@ -573,6 +576,31 @@ resource "azurerm_app_configuration_key" "forums_bans" {
   key   = "XtremeIdiots:Forums:Bans:${each.key}"
   label = var.environment
   value = each.value
+}
+
+// Application Insights dependency filter configuration (shared across all portal apps)
+resource "azurerm_app_configuration_key" "appinsights_dep_filter_excluded_types" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:DependencyFilter:ExcludedTypes"
+  label = var.environment
+  value = "Azure blob,Azure Service Bus,Azure table,SQL,Queue Message | Azure Service Bus"
+}
+
+resource "azurerm_app_configuration_key" "appinsights_dep_filter_excluded_type_prefixes" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:DependencyFilter:ExcludedTypePrefixes"
+  label = var.environment
+  value = "InProc"
+}
+
+resource "azurerm_app_configuration_key" "appinsights_dep_filter_duration_threshold_ms" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:DependencyFilter:DurationThresholdMs"
+  label = var.environment
+  value = "1000"
 }
 
 // Sentinel key for dynamic configuration refresh

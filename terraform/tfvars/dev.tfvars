@@ -68,11 +68,15 @@ managed_identities = {
   }
 
   server_agent = {
-    namespaces = []
+    namespaces = [
+      "XtremeIdiots.Portal.Server.Agent.App"
+    ]
   }
 
   server_events = {
-    namespaces = []
+    namespaces = [
+      "XtremeIdiots.Portal.Server.Events.Processor.App"
+    ]
   }
 }
 
