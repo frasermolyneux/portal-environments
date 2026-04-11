@@ -584,7 +584,7 @@ resource "azurerm_app_configuration_key" "appinsights_dep_filter_excluded_types"
 
   key   = "ApplicationInsights:DependencyFilter:ExcludedTypes"
   label = var.environment
-  value = "Azure blob,Azure Service Bus,Azure table,SQL,Queue Message | Azure Service Bus"
+  value = "Azure blob,Azure Service Bus,Azure table,SQL,Queue Message | Azure Service Bus,HTTP"
 }
 
 resource "azurerm_app_configuration_key" "appinsights_dep_filter_excluded_type_prefixes" {
@@ -592,7 +592,7 @@ resource "azurerm_app_configuration_key" "appinsights_dep_filter_excluded_type_p
 
   key   = "ApplicationInsights:DependencyFilter:ExcludedTypePrefixes"
   label = var.environment
-  value = "InProc"
+  value = "InProc,CallOfDuty"
 }
 
 resource "azurerm_app_configuration_key" "appinsights_dep_filter_duration_threshold_ms" {
