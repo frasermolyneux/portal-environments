@@ -579,6 +579,8 @@ resource "azurerm_app_configuration_key" "forums_bans" {
 }
 
 // Application Insights dependency filter configuration (shared across all portal apps)
+// LEGACY: Keep during transition to MX.Observability.ApplicationInsights package.
+// Remove once all portal-* projects are migrated to AddObservability().
 resource "azurerm_app_configuration_key" "appinsights_dep_filter_excluded_types" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
 
@@ -601,6 +603,174 @@ resource "azurerm_app_configuration_key" "appinsights_dep_filter_duration_thresh
   key   = "ApplicationInsights:DependencyFilter:DurationThresholdMs"
   label = var.environment
   value = "1000"
+}
+
+// Application Insights telemetry filter configuration (MX.Observability.ApplicationInsights)
+// Shared across all portal apps via ApplicationInsights:* selector.
+// See: https://github.com/frasermolyneux/observability-appinsights
+
+// ── Global ──
+resource "azurerm_app_configuration_key" "telemetry_filter_enabled" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Enabled"
+  label = var.environment
+  value = "true"
+}
+
+// ── Dependencies ──
+resource "azurerm_app_configuration_key" "telemetry_filter_dep_enabled" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Dependencies:Enabled"
+  label = var.environment
+  value = "true"
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_dep_threshold" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Dependencies:DurationThresholdMs"
+  label = var.environment
+  value = "1000"
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_dep_filter_all" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Dependencies:FilterAllTypes"
+  label = var.environment
+  value = "true"
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_dep_excluded_types" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Dependencies:ExcludedTypes"
+  label = var.environment
+  value = "Azure blob,Azure Service Bus,Azure table,SQL,Queue Message | Azure Service Bus,HTTP"
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_dep_excluded_prefixes" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Dependencies:ExcludedTypePrefixes"
+  label = var.environment
+  value = "InProc,CallOfDuty"
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_dep_ignored_targets" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Dependencies:IgnoredTargets"
+  label = var.environment
+  value = ""
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_dep_retained_codes" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Dependencies:RetainedResultCodes"
+  label = var.environment
+  value = "429,503"
+}
+
+// ── Requests ──
+resource "azurerm_app_configuration_key" "telemetry_filter_req_enabled" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Requests:Enabled"
+  label = var.environment
+  value = "true"
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_req_threshold" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Requests:DurationThresholdMs"
+  label = var.environment
+  value = "1000"
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_req_success_only" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Requests:SuccessOnly"
+  label = var.environment
+  value = "true"
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_req_excluded_paths" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Requests:ExcludedPaths"
+  label = var.environment
+  value = "/healthz,/health,/api/health"
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_req_excluded_methods" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Requests:ExcludedHttpMethods"
+  label = var.environment
+  value = "OPTIONS,HEAD"
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_req_retained_codes" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Requests:RetainedStatusCodes"
+  label = var.environment
+  value = "429"
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_req_retained_ranges" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Requests:RetainedStatusCodeRanges"
+  label = var.environment
+  value = "400-599"
+}
+
+// ── Traces ──
+resource "azurerm_app_configuration_key" "telemetry_filter_trace_enabled" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Traces:Enabled"
+  label = var.environment
+  value = "true"
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_trace_min_severity" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Traces:MinSeverity"
+  label = var.environment
+  value = "Warning"
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_trace_retain_categories" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Traces:AlwaysRetainCategories"
+  label = var.environment
+  value = "Microsoft.Hosting.Lifetime"
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_trace_excluded_categories" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Traces:ExcludedCategories"
+  label = var.environment
+  value = ""
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_trace_excluded_messages" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:Traces:ExcludedMessageContains"
+  label = var.environment
+  value = ""
 }
 
 // Sentinel key for dynamic configuration refresh
