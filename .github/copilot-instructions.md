@@ -1,5 +1,7 @@
 # Copilot Instructions
 
+> Shared conventions: see [`.github-copilot/.github/instructions/terraform.instructions.md`](../../.github-copilot/.github/instructions/terraform.instructions.md) for the standard Terraform layout, providers, remote-state pattern, validation commands, and CI/CD workflows.
+
 ## Project Overview
 
 Terraform-only repository that provisions portal environment infrastructure on Azure: App Configuration with Key Vault-backed secrets, API Management (consumption tier), Azure AD app registrations/service principals (Repository APIs v1/v2, Event Ingest, Servers Integration, Portal Bots, integration tests), SQL admin/reader/writer groups, managed identities with scoped role assignments, and a shared Key Vault for cross-cutting secrets.
