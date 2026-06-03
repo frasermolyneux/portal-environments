@@ -216,6 +216,31 @@ resource "azurerm_app_configuration_feature" "chat_toxicity_detection" {
   description = "Enable AI-powered chat toxicity detection in server events pipeline"
 }
 
+// Server events command freshness configuration (Phase 4 staleness policy)
+resource "azurerm_app_configuration_key" "server_events_commands_freshness_default_seconds" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "${local.server_events_namespace}:Commands:Freshness:DefaultSeconds"
+  label = var.environment
+  value = "5"
+}
+
+resource "azurerm_app_configuration_key" "server_events_commands_freshness_readonly_seconds" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "${local.server_events_namespace}:Commands:Freshness:ReadOnlySeconds"
+  label = var.environment
+  value = "5"
+}
+
+resource "azurerm_app_configuration_key" "server_events_commands_freshness_mutating_seconds" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "${local.server_events_namespace}:Commands:Freshness:MutatingSeconds"
+  label = var.environment
+  value = "3"
+}
+
 // Portal Web application configuration (non-secret values)
 resource "azurerm_app_configuration_key" "portal_web_repository_base_url" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id

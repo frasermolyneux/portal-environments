@@ -39,6 +39,7 @@ locals {
   repository_webapi_namespace_v1         = "XtremeIdiots.Portal.Repository.Api.V1"
   repository_webapi_namespace_v2         = "XtremeIdiots.Portal.Repository.Api.V2"
   repository_integration_tests_namespace = "XtremeIdiots.Portal.Repository.IntegrationTests"
+  server_events_namespace                = "XtremeIdiots.Portal.Server.Events.Processor.App"
   sync_app_namespace                     = "XtremeIdiots.Portal.Sync.App"
 }
 
