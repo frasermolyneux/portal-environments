@@ -19,6 +19,14 @@ The `copilot-setup-steps.yml` workflow checks out `frasermolyneux/.github-copilo
 
 ---
 
+## Org conventions via MCP (when available)
+
+If a `frasermolyneux-copilot` MCP server is configured in your client (`~/.copilot/mcp-config.json`, VS Code user `mcp.json`, or an equivalent stdio MCP wire-up), **prefer its catalog tools** over your own assumptions when answering questions about org standards, branching, workflows, Terraform, .NET projects, Azure patterns, or shared library / platform consumption contracts. The catalog source-of-truth lives in `frasermolyneux/.github-copilot` — see `mcp-server/README.md` there for the tool contract.
+
+This is **complementary** to the file-load model: if `./.github-copilot/` is checked out in the runner (per `copilot-setup-steps.yml`), continue to read those files directly. If both are available, prefer MCP for freshness. If no MCP server is configured in your client, treat this section as a no-op and fall back to the file paths above.
+
+---
+
 ## Stack guardrails
 
 ### Tenant facts (always-on)
@@ -69,6 +77,9 @@ terraform -chdir=terraform plan -var-file=tfvars/dev.tfvars
 - ❌ Do not edit JSON files under `terraform/app_configs/` without understanding how `locals.tf` expands them into App Config entries.
 - ❌ Do not modify `.github/workflows/`, `.github/dependabot.yml`, or `version.json` unless that is the explicit task.
 
+- ❌ Do not pull context from sibling workspace folders. Only what is inside this repo and `./.github-copilot/` is in scope.
+- ❌ Do not assume tools/SDKs are installed beyond what `.github/workflows/copilot-setup-steps.yml` provisions. If you need more, add the step and explain why.
+
 ---
 
 ## Opening the PR
@@ -97,6 +108,8 @@ Complete the `## Agent attestation` section before requesting review; reviewers 
 - [ ] PR body cites each acceptance criterion
 - [ ] Risk/rollout section filled in
 
+- [ ] `code-review` sub-agent run; High/Medium findings resolved or justified in the PR body
+
 ---
 
 ## Escalation
@@ -109,3 +122,6 @@ Stop and escalate when:
 - An app-registration audience / scope rename would force downstream contract breaks.
 - A `code-review` finding is **High** and cannot be resolved in-scope.
 - The Azure AD role assignments required to apply the plan are missing in the runner identity.
+
+
+
