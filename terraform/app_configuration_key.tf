@@ -175,14 +175,6 @@ resource "azurerm_app_configuration_key" "content_safety_bot_admin_id" {
   value = "21145"
 }
 
-resource "azurerm_app_configuration_key" "content_safety_severity_threshold" {
-  configuration_store_id = azurerm_app_configuration.app_configuration.id
-
-  key   = "ContentSafety:SeverityThreshold"
-  label = var.environment
-  value = "4"
-}
-
 resource "azurerm_app_configuration_key" "content_safety_new_player_window_days" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
 
