@@ -191,15 +191,6 @@ resource "azurerm_app_configuration_key" "content_safety_min_message_length" {
   value = "5"
 }
 
-resource "azurerm_app_configuration_key" "content_safety_severity_threshold" {
-  configuration_store_id = azurerm_app_configuration.app_configuration.id
-
-  # Legacy compatibility key for consumers that still read a single global threshold.
-  key   = "ContentSafety:SeverityThreshold"
-  label = var.environment
-  value = "4"
-}
-
 resource "azurerm_app_configuration_key" "content_safety_moderate_chat_tag_name" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
 
