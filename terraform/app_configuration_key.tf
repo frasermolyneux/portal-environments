@@ -449,55 +449,6 @@ resource "azurerm_app_configuration_key" "shared_google_analytics_id" {
   value = "G-F10FZ2SV5E"
 }
 
-// Application Insights sampling configuration (per-app, loaded via each app's scoped prefix)
-resource "azurerm_app_configuration_key" "appinsights_initial_sampling" {
-  for_each = {
-    "XtremeIdiots.Portal.Web"                         = "5"
-    "XtremeIdiots.Portal.Repository.Api.V1"           = "5"
-    "XtremeIdiots.Portal.Repository.Api.V2"           = "5"
-    "XtremeIdiots.Portal.Integrations.Servers.Api.V1" = "5"
-    "XtremeIdiots.Portal.Server.Agent.App"            = "5"
-  }
-
-  configuration_store_id = azurerm_app_configuration.app_configuration.id
-
-  key   = "${each.key}:ApplicationInsights:InitialSamplingPercentage"
-  label = var.environment
-  value = each.value
-}
-
-resource "azurerm_app_configuration_key" "appinsights_min_sampling" {
-  for_each = {
-    "XtremeIdiots.Portal.Web"                         = "5"
-    "XtremeIdiots.Portal.Repository.Api.V1"           = "5"
-    "XtremeIdiots.Portal.Repository.Api.V2"           = "5"
-    "XtremeIdiots.Portal.Integrations.Servers.Api.V1" = "5"
-    "XtremeIdiots.Portal.Server.Agent.App"            = "5"
-  }
-
-  configuration_store_id = azurerm_app_configuration.app_configuration.id
-
-  key   = "${each.key}:ApplicationInsights:MinSamplingPercentage"
-  label = var.environment
-  value = each.value
-}
-
-resource "azurerm_app_configuration_key" "appinsights_max_sampling" {
-  for_each = {
-    "XtremeIdiots.Portal.Web"                         = "60"
-    "XtremeIdiots.Portal.Repository.Api.V1"           = "60"
-    "XtremeIdiots.Portal.Repository.Api.V2"           = "60"
-    "XtremeIdiots.Portal.Integrations.Servers.Api.V1" = "60"
-    "XtremeIdiots.Portal.Server.Agent.App"            = "60"
-  }
-
-  configuration_store_id = azurerm_app_configuration.app_configuration.id
-
-  key   = "${each.key}:ApplicationInsights:MaxSamplingPercentage"
-  label = var.environment
-  value = each.value
-}
-
 // SQL resilience configuration (shared across portal-repository V1 and V2)
 resource "azurerm_app_configuration_key" "shared_sql_retry_count" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
@@ -603,33 +554,6 @@ resource "azurerm_app_configuration_key" "forums_bans" {
   value = each.value
 }
 
-// Application Insights dependency filter configuration (shared across all portal apps)
-// LEGACY: Keep during transition to MX.Observability.ApplicationInsights package.
-// Remove once all portal-* projects are migrated to AddObservability().
-resource "azurerm_app_configuration_key" "appinsights_dep_filter_excluded_types" {
-  configuration_store_id = azurerm_app_configuration.app_configuration.id
-
-  key   = "ApplicationInsights:DependencyFilter:ExcludedTypes"
-  label = var.environment
-  value = "Azure blob,Azure Service Bus,Azure table,SQL,Queue Message | Azure Service Bus,HTTP"
-}
-
-resource "azurerm_app_configuration_key" "appinsights_dep_filter_excluded_type_prefixes" {
-  configuration_store_id = azurerm_app_configuration.app_configuration.id
-
-  key   = "ApplicationInsights:DependencyFilter:ExcludedTypePrefixes"
-  label = var.environment
-  value = "InProc,CallOfDuty"
-}
-
-resource "azurerm_app_configuration_key" "appinsights_dep_filter_duration_threshold_ms" {
-  configuration_store_id = azurerm_app_configuration.app_configuration.id
-
-  key   = "ApplicationInsights:DependencyFilter:DurationThresholdMs"
-  label = var.environment
-  value = "1000"
-}
-
 // Application Insights telemetry filter configuration (MX.Observability.ApplicationInsights)
 // Shared across all portal apps via ApplicationInsights:* selector.
 // See: https://github.com/frasermolyneux/observability-appinsights
@@ -657,7 +581,7 @@ resource "azurerm_app_configuration_key" "telemetry_filter_dep_threshold" {
 
   key   = "ApplicationInsights:TelemetryFilter:Dependencies:DurationThresholdMs"
   label = var.environment
-  value = "1000"
+  value = "999999"
 }
 
 resource "azurerm_app_configuration_key" "telemetry_filter_dep_filter_all" {
@@ -673,7 +597,7 @@ resource "azurerm_app_configuration_key" "telemetry_filter_dep_excluded_types" {
 
   key   = "ApplicationInsights:TelemetryFilter:Dependencies:ExcludedTypes"
   label = var.environment
-  value = "Azure blob,Azure Service Bus,Azure table,SQL,Queue Message | Azure Service Bus,HTTP"
+  value = ""
 }
 
 resource "azurerm_app_configuration_key" "telemetry_filter_dep_excluded_prefixes" {
@@ -681,7 +605,7 @@ resource "azurerm_app_configuration_key" "telemetry_filter_dep_excluded_prefixes
 
   key   = "ApplicationInsights:TelemetryFilter:Dependencies:ExcludedTypePrefixes"
   label = var.environment
-  value = "InProc,CallOfDuty"
+  value = ""
 }
 
 resource "azurerm_app_configuration_key" "telemetry_filter_dep_ignored_targets" {
@@ -689,7 +613,7 @@ resource "azurerm_app_configuration_key" "telemetry_filter_dep_ignored_targets" 
 
   key   = "ApplicationInsights:TelemetryFilter:Dependencies:IgnoredTargets"
   label = var.environment
-  value = ""
+  value = "localhost,127.0.0.1"
 }
 
 resource "azurerm_app_configuration_key" "telemetry_filter_dep_retained_codes" {
@@ -714,7 +638,7 @@ resource "azurerm_app_configuration_key" "telemetry_filter_req_threshold" {
 
   key   = "ApplicationInsights:TelemetryFilter:Requests:DurationThresholdMs"
   label = var.environment
-  value = "1000"
+  value = "500"
 }
 
 resource "azurerm_app_configuration_key" "telemetry_filter_req_success_only" {
@@ -746,7 +670,7 @@ resource "azurerm_app_configuration_key" "telemetry_filter_req_retained_codes" {
 
   key   = "ApplicationInsights:TelemetryFilter:Requests:RetainedStatusCodes"
   label = var.environment
-  value = "429"
+  value = ""
 }
 
 resource "azurerm_app_configuration_key" "telemetry_filter_req_retained_ranges" {
@@ -779,7 +703,7 @@ resource "azurerm_app_configuration_key" "telemetry_filter_trace_retain_categori
 
   key   = "ApplicationInsights:TelemetryFilter:Traces:AlwaysRetainCategories"
   label = var.environment
-  value = "Microsoft.Hosting.Lifetime"
+  value = ""
 }
 
 resource "azurerm_app_configuration_key" "telemetry_filter_trace_excluded_categories" {
@@ -796,6 +720,30 @@ resource "azurerm_app_configuration_key" "telemetry_filter_trace_excluded_messag
   key   = "ApplicationInsights:TelemetryFilter:Traces:ExcludedMessageContains"
   label = var.environment
   value = ""
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_custom_events_enabled" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:CustomEvents:Enabled"
+  label = var.environment
+  value = "true"
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_custom_events_allowed_names" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:CustomEvents:AllowedNames"
+  label = var.environment
+  value = ""
+}
+
+resource "azurerm_app_configuration_key" "telemetry_filter_custom_events_allowed_prefixes" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "ApplicationInsights:TelemetryFilter:CustomEvents:AllowedNamePrefixes"
+  label = var.environment
+  value = "Audit:"
 }
 
 // Sentinel key for dynamic configuration refresh
