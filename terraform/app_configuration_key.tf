@@ -646,7 +646,7 @@ resource "azurerm_app_configuration_key" "telemetry_filter_req_excluded_paths" {
 
   key   = "ApplicationInsights:TelemetryFilter:Requests:ExcludedPaths"
   label = var.environment
-  value = "/healthz,/health,/api/health"
+  value = "/health/live,/health/ready"
 }
 
 resource "azurerm_app_configuration_key" "telemetry_filter_req_excluded_methods" {
