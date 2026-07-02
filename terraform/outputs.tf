@@ -118,6 +118,26 @@ output "sync_api" {
   }
 }
 
+output "cod4x_plugin_api" {
+  description = "CoD4x plugin app registration metadata for downstream consumers."
+  value = {
+    application = {
+      id                     = azuread_application.cod4x_plugin_application.id
+      object_id              = azuread_application.cod4x_plugin_application.object_id
+      client_id              = azuread_application.cod4x_plugin_application.client_id
+      display_name           = azuread_application.cod4x_plugin_application.display_name
+      primary_identifier_uri = one(azuread_application.cod4x_plugin_application.identifier_uris)
+    }
+    service_principal = {
+      object_id = azuread_service_principal.cod4x_plugin_service_principal.id
+    }
+    api_management = {
+      root_path = "repository"
+      endpoint  = "${azurerm_api_management.apim.gateway_url}/repository"
+    }
+  }
+}
+
 output "shared_key_vault" {
   description = "Shared Key Vault for cross-application secrets referenced via App Configuration."
   value = {

@@ -98,6 +98,38 @@ resource "azurerm_key_vault_secret" "repository_integration_tests_app_tenant_id"
   content_type = "text/plain"
 }
 
+resource "azurerm_key_vault_secret" "cod4x_plugin_app_client_id" {
+  name         = "azuread-app-client-id-cod4x-plugin"
+  value        = azuread_application.cod4x_plugin_application.client_id
+  key_vault_id = azurerm_key_vault.shared.id
+
+  content_type = "text/plain"
+}
+
+resource "azurerm_key_vault_secret" "cod4x_plugin_app_client_secret" {
+  name         = "azuread-app-password-cod4x-plugin"
+  value        = azuread_application_password.cod4x_plugin_primary.value
+  key_vault_id = azurerm_key_vault.shared.id
+
+  content_type = "text/plain"
+}
+
+resource "azurerm_key_vault_secret" "cod4x_plugin_app_tenant_id" {
+  name         = "azuread-app-tenant-id-cod4x-plugin"
+  value        = data.azurerm_client_config.current.tenant_id
+  key_vault_id = azurerm_key_vault.shared.id
+
+  content_type = "text/plain"
+}
+
+resource "azurerm_key_vault_secret" "cod4x_plugin_repository_api_endpoint" {
+  name         = "cod4x-plugin-repository-api-endpoint"
+  value        = "${azurerm_api_management.apim.gateway_url}/repository"
+  key_vault_id = azurerm_key_vault.shared.id
+
+  content_type = "text/plain"
+}
+
 // Shared Key Vault secrets (used by multiple portal-* applications via App Configuration KV references)
 resource "azurerm_key_vault_secret" "shared_forums_api_key" {
   name         = "xtremeidiots-forums-api-key"
