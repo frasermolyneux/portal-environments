@@ -118,6 +118,26 @@ output "sync_api" {
   }
 }
 
+output "server_events_api" {
+  description = "Server Events API app registration and service principal metadata for downstream consumers."
+  value = {
+    application = {
+      id                     = azuread_application.server_events_api_application.id
+      object_id              = azuread_application.server_events_api_application.object_id
+      client_id              = azuread_application.server_events_api_application.client_id
+      display_name           = azuread_application.server_events_api_application.display_name
+      primary_identifier_uri = one(azuread_application.server_events_api_application.identifier_uris)
+    }
+    service_principal = {
+      object_id = azuread_service_principal.server_events_api_service_principal.object_id
+    }
+    api_management = {
+      root_path = "ingest"
+      endpoint  = "${azurerm_api_management.apim.gateway_url}/ingest"
+    }
+  }
+}
+
 output "cod4x_plugin_api" {
   description = "CoD4x plugin app registration metadata for downstream consumers."
   value = {
