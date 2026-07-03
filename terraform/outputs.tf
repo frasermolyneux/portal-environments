@@ -69,7 +69,7 @@ output "repository_api" {
       primary_identifier_uri = one(azuread_application.repository_api_application.identifier_uris)
     }
     service_principal = {
-      object_id = azuread_service_principal.repository_api_service_principal.id
+      object_id = azuread_service_principal.repository_api_service_principal.object_id
     }
     api_management = {
       root_path = "repository"
@@ -89,7 +89,7 @@ output "servers_integration_api" {
       primary_identifier_uri = one(azuread_application.servers_integration_api_application.identifier_uris)
     }
     service_principal = {
-      object_id = azuread_service_principal.servers_integration_api_service_principal.id
+      object_id = azuread_service_principal.servers_integration_api_service_principal.object_id
     }
     api_management = {
       root_path = "servers-integration"
@@ -109,7 +109,7 @@ output "sync_api" {
       primary_identifier_uri = one(azuread_application.sync_api_application.identifier_uris)
     }
     service_principal = {
-      object_id = azuread_service_principal.sync_api_service_principal.id
+      object_id = azuread_service_principal.sync_api_service_principal.object_id
     }
     api_management = {
       root_path = "sync"
@@ -129,7 +129,7 @@ output "cod4x_plugin_api" {
       primary_identifier_uri = one(azuread_application.cod4x_plugin_application.identifier_uris)
     }
     service_principal = {
-      object_id = azuread_service_principal.cod4x_plugin_service_principal.id
+      object_id = azuread_service_principal.cod4x_plugin_service_principal.object_id
     }
     api_management = {
       root_path = "repository"

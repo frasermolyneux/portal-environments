@@ -29,6 +29,6 @@ resource "azuread_app_role_assignment" "repository_api_service_account" {
 
 resource "azuread_app_role_assignment" "repository_api_cod4x_plugin_service_account" {
   app_role_id         = local.repository_api_service_account_role_id
-  principal_object_id = azuread_service_principal.cod4x_plugin_service_principal.id
+  principal_object_id = azuread_service_principal.cod4x_plugin_service_principal.object_id
   resource_object_id  = azuread_service_principal.repository_api_service_principal.object_id
 }
