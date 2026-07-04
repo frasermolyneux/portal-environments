@@ -286,6 +286,25 @@ resource "azurerm_app_configuration_key" "server_agent_cod4x_plugin_repository_a
   value = one(azuread_application.repository_api_application.identifier_uris)
 }
 
+resource "azurerm_app_configuration_key" "server_agent_cod4x_plugin_ingest_base_url" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  type = "vault"
+
+  key   = "XtremeIdiots.Portal.Server.Agent.App:CoD4xPlugin:IngestBaseUrl"
+  label = var.environment
+
+  vault_key_reference = azurerm_key_vault_secret.cod4x_plugin_ingest_api_endpoint.versionless_id
+}
+
+resource "azurerm_app_configuration_key" "server_agent_cod4x_plugin_ingest_api_resource" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "XtremeIdiots.Portal.Server.Agent.App:CoD4xPlugin:IngestApiResource"
+  label = var.environment
+  value = one(azuread_application.server_events_api_application.identifier_uris)
+}
+
 resource "azurerm_app_configuration_key" "server_agent_cod4x_plugin_refresh_interval_seconds" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
 

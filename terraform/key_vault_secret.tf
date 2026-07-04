@@ -130,6 +130,14 @@ resource "azurerm_key_vault_secret" "cod4x_plugin_repository_api_endpoint" {
   content_type = "text/plain"
 }
 
+resource "azurerm_key_vault_secret" "cod4x_plugin_ingest_api_endpoint" {
+  name         = "cod4x-plugin-ingest-api-endpoint"
+  value        = "${azurerm_api_management.apim.gateway_url}/ingest"
+  key_vault_id = azurerm_key_vault.shared.id
+
+  content_type = "text/plain"
+}
+
 // Shared Key Vault secrets (used by multiple portal-* applications via App Configuration KV references)
 resource "azurerm_key_vault_secret" "shared_forums_api_key" {
   name         = "xtremeidiots-forums-api-key"
