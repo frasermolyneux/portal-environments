@@ -24,8 +24,9 @@ resource "azurerm_api_management_product" "cod4x_plugin" {
 }
 
 resource "azurerm_api_management_subscription" "cod4x_plugin" {
-  api_management_id = azurerm_api_management.apim.id
-  product_id        = azurerm_api_management_product.cod4x_plugin.id
+  api_management_name = azurerm_api_management.apim.name
+  resource_group_name = azurerm_api_management.apim.resource_group_name
+  product_id          = azurerm_api_management_product.cod4x_plugin.id
 
   display_name = "CoD4x Plugin"
   state        = "active"
