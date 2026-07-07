@@ -33,7 +33,6 @@ locals {
   servers_integration_app_registration_name = "portal-servers-integration-${var.environment}"
   sync_app_registration_name                = "portal-sync-${var.environment}"
   server_events_api_app_registration_name   = "portal-server-events-${var.environment}"
-  cod4x_plugin_app_registration_name        = "portal-cod4x-plugin-${var.environment}"
   shared_key_vault_name                     = substr(format("kv-sh-%s-%s", random_id.shared_config.hex, var.location), 0, 24)
 
   # Static Naming

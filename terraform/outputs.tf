@@ -139,22 +139,13 @@ output "server_events_api" {
 }
 
 output "cod4x_plugin_api" {
-  description = "CoD4x plugin app registration metadata for downstream consumers."
+  description = "CoD4x plugin APIM access metadata for downstream consumers (subscription-key model)."
   value = {
-    application = {
-      id                     = azuread_application.cod4x_plugin_application.id
-      object_id              = azuread_application.cod4x_plugin_application.object_id
-      client_id              = azuread_application.cod4x_plugin_application.client_id
-      display_name           = azuread_application.cod4x_plugin_application.display_name
-      primary_identifier_uri = one(azuread_application.cod4x_plugin_application.identifier_uris)
-    }
-    service_principal = {
-      object_id = azuread_service_principal.cod4x_plugin_service_principal.object_id
-    }
     api_management = {
-      root_path = "repository"
-      endpoint  = "${azurerm_api_management.apim.gateway_url}/repository"
+      root_path = "ingest"
+      endpoint  = "${azurerm_api_management.apim.gateway_url}/ingest"
     }
+    product_id = azurerm_api_management_product.cod4x_plugin.product_id
   }
 }
 

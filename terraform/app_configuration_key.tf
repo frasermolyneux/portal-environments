@@ -234,58 +234,6 @@ resource "azurerm_app_configuration_key" "server_events_commands_freshness_mutat
 }
 
 // CoD4x plugin runtime config for portal-server-agent
-resource "azurerm_app_configuration_key" "server_agent_cod4x_plugin_tenant_id" {
-  configuration_store_id = azurerm_app_configuration.app_configuration.id
-
-  type = "vault"
-
-  key   = "XtremeIdiots.Portal.Server.Agent.App:CoD4xPlugin:TenantId"
-  label = var.environment
-
-  vault_key_reference = azurerm_key_vault_secret.cod4x_plugin_app_tenant_id.versionless_id
-}
-
-resource "azurerm_app_configuration_key" "server_agent_cod4x_plugin_client_id" {
-  configuration_store_id = azurerm_app_configuration.app_configuration.id
-
-  type = "vault"
-
-  key   = "XtremeIdiots.Portal.Server.Agent.App:CoD4xPlugin:ClientId"
-  label = var.environment
-
-  vault_key_reference = azurerm_key_vault_secret.cod4x_plugin_app_client_id.versionless_id
-}
-
-resource "azurerm_app_configuration_key" "server_agent_cod4x_plugin_client_secret" {
-  configuration_store_id = azurerm_app_configuration.app_configuration.id
-
-  type = "vault"
-
-  key   = "XtremeIdiots.Portal.Server.Agent.App:CoD4xPlugin:ClientSecret"
-  label = var.environment
-
-  vault_key_reference = azurerm_key_vault_secret.cod4x_plugin_app_client_secret.versionless_id
-}
-
-resource "azurerm_app_configuration_key" "server_agent_cod4x_plugin_repository_api_base_url" {
-  configuration_store_id = azurerm_app_configuration.app_configuration.id
-
-  type = "vault"
-
-  key   = "XtremeIdiots.Portal.Server.Agent.App:CoD4xPlugin:RepositoryApiBaseUrl"
-  label = var.environment
-
-  vault_key_reference = azurerm_key_vault_secret.cod4x_plugin_repository_api_endpoint.versionless_id
-}
-
-resource "azurerm_app_configuration_key" "server_agent_cod4x_plugin_repository_api_resource" {
-  configuration_store_id = azurerm_app_configuration.app_configuration.id
-
-  key   = "XtremeIdiots.Portal.Server.Agent.App:CoD4xPlugin:RepositoryApiResource"
-  label = var.environment
-  value = one(azuread_application.repository_api_application.identifier_uris)
-}
-
 resource "azurerm_app_configuration_key" "server_agent_cod4x_plugin_ingest_base_url" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
 
@@ -297,12 +245,15 @@ resource "azurerm_app_configuration_key" "server_agent_cod4x_plugin_ingest_base_
   vault_key_reference = azurerm_key_vault_secret.cod4x_plugin_ingest_api_endpoint.versionless_id
 }
 
-resource "azurerm_app_configuration_key" "server_agent_cod4x_plugin_ingest_api_resource" {
+resource "azurerm_app_configuration_key" "server_agent_cod4x_plugin_ingest_subscription_key" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
 
-  key   = "XtremeIdiots.Portal.Server.Agent.App:CoD4xPlugin:IngestApiResource"
+  type = "vault"
+
+  key   = "XtremeIdiots.Portal.Server.Agent.App:CoD4xPlugin:IngestSubscriptionKey"
   label = var.environment
-  value = one(azuread_application.server_events_api_application.identifier_uris)
+
+  vault_key_reference = azurerm_key_vault_secret.cod4x_plugin_ingest_subscription_key.versionless_id
 }
 
 resource "azurerm_app_configuration_key" "server_agent_cod4x_plugin_refresh_interval_seconds" {

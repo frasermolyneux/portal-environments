@@ -98,41 +98,17 @@ resource "azurerm_key_vault_secret" "repository_integration_tests_app_tenant_id"
   content_type = "text/plain"
 }
 
-resource "azurerm_key_vault_secret" "cod4x_plugin_app_client_id" {
-  name         = "azuread-app-client-id-cod4x-plugin"
-  value        = azuread_application.cod4x_plugin_application.client_id
-  key_vault_id = azurerm_key_vault.shared.id
-
-  content_type = "text/plain"
-}
-
-resource "azurerm_key_vault_secret" "cod4x_plugin_app_client_secret" {
-  name         = "azuread-app-password-cod4x-plugin"
-  value        = azuread_application_password.cod4x_plugin_primary.value
-  key_vault_id = azurerm_key_vault.shared.id
-
-  content_type = "text/plain"
-}
-
-resource "azurerm_key_vault_secret" "cod4x_plugin_app_tenant_id" {
-  name         = "azuread-app-tenant-id-cod4x-plugin"
-  value        = data.azurerm_client_config.current.tenant_id
-  key_vault_id = azurerm_key_vault.shared.id
-
-  content_type = "text/plain"
-}
-
-resource "azurerm_key_vault_secret" "cod4x_plugin_repository_api_endpoint" {
-  name         = "cod4x-plugin-repository-api-endpoint"
-  value        = "${azurerm_api_management.apim.gateway_url}/repository"
-  key_vault_id = azurerm_key_vault.shared.id
-
-  content_type = "text/plain"
-}
-
 resource "azurerm_key_vault_secret" "cod4x_plugin_ingest_api_endpoint" {
   name         = "cod4x-plugin-ingest-api-endpoint"
   value        = "${azurerm_api_management.apim.gateway_url}/ingest"
+  key_vault_id = azurerm_key_vault.shared.id
+
+  content_type = "text/plain"
+}
+
+resource "azurerm_key_vault_secret" "cod4x_plugin_ingest_subscription_key" {
+  name         = "cod4x-plugin-ingest-subscription-key"
+  value        = azurerm_api_management_subscription.cod4x_plugin.primary_key
   key_vault_id = azurerm_key_vault.shared.id
 
   content_type = "text/plain"
