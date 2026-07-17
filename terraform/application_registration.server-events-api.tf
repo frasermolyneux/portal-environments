@@ -24,7 +24,7 @@ resource "azuread_application" "server_events_api_application" {
 
 resource "azuread_service_principal" "server_events_api_service_principal" {
   client_id                    = azuread_application.server_events_api_application.client_id
-  app_role_assignment_required = false
+  app_role_assignment_required = true
 
   owners = [
     data.azuread_client_config.current.object_id
