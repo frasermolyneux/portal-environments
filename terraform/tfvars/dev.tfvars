@@ -19,7 +19,7 @@ sql_admin_aad_group_members = [
 
 app_configuration_sku = "developer"
 
-app_configs = ["repository-webapi-v1-dev", "repository-webapi-v2-dev", "repository-integration-tests-dev", "servers-integration-webapi-v1-dev", "portal-web-dev", "sync-app-dev"]
+app_configs = ["repository-webapi-v1-dev", "repository-webapi-v2-dev", "repository-integration-tests-dev", "servers-integration-webapi-v1-dev", "portal-web-dev", "sync-app-dev", "repository-func-app-dev"]
 
 tags = {
   Environment = "dev",
@@ -64,7 +64,9 @@ managed_identities = {
   }
 
   repository_func = {
-    namespaces = []
+    namespaces = [
+      "XtremeIdiots.Portal.Repository.App"
+    ]
   }
 
   server_agent = {

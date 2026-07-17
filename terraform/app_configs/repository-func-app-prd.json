@@ -1,0 +1,12 @@
+{
+    "label": "prd",
+    "namespace": "XtremeIdiots.Portal.Repository.App",
+    "keys": [
+        {
+            "key": "VpnDetectedTagReconciliation:Enabled",
+            "value": "true"
+        }
+    ],
+    "secret_keys": [],
+    "features": []
+}
