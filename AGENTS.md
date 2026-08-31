@@ -1,61 +1,23 @@
 # AGENTS.md — portal-environments
 
-Terraform-only repository that provisions **portal environment infrastructure** on Azure: App Configuration (with Key Vault-backed secrets), API Management (consumption tier), Azure AD app registrations / service principals (Repository APIs v1/v2, Event Ingest, Servers Integration, Portal Bots, integration tests), SQL admin / reader / writer groups, scoped managed identities, and a shared Key Vault for cross-cutting secrets.
+## Purpose and ownership
 
-This file is the brief for the **GitHub Copilot coding agent** (and any other agent that follows the [agents.md](https://agents.md) convention) when it runs in a cloud runner without the local VS Code multi-root workspace context.
+Terraform-only repository for environment-specific portal identity and configuration infrastructure. It owns App Configuration, Key Vaults and secrets, API Management, Entra ID applications and service principals, managed identities, Microsoft Graph/API permissions, SQL groups, and role assignments used across portal workloads.
 
-> If you are a human reading this in VS Code, prefer `.github/copilot-instructions.md` for project orientation. `AGENTS.md` is the agent execution brief.
+## Important paths
 
----
+- `terraform/` — the single Terraform root module
+- `terraform/providers.tf` — Terraform/provider constraints and AzureRM backend declaration
+- `terraform/remote_state.tf` — upstream `platform-workloads` state
+- `terraform/outputs.tf` — cross-repository identity, endpoint, and configuration contracts
+- `terraform/app_configs/` — JSON inputs expanded into App Configuration keys and Key Vault secrets
+- `terraform/application_registration.*.tf` — API applications, roles, scopes, credentials, and service principals
+- `terraform/*role_assignments.tf` and `terraform/managed_identity_graph_permissions.tf` — Azure and Microsoft Graph authorization
+- `terraform/backends/{dev,prd}.backend.hcl` — environment backend configuration
+- `terraform/tfvars/{dev,prd}.tfvars` — environment identities, consumers, configuration, and inputs
+- `.github/workflows/` — plan, deployment, and teardown automation
 
-## Required reading (read these BEFORE doing any work)
-
-The `copilot-setup-steps.yml` workflow checks out `frasermolyneux/.github-copilot` at `./.github-copilot/` in the runner, so the paths below resolve.
-
-1. `.github/copilot-instructions.md` — repo-specific orientation, build commands, conventions
-2. `.github-copilot/.github/instructions/personal.working-preferences.instructions.md`
-3. `.github-copilot/.github/copilot-instructions.md` — org-wide catalog
-4. Stack-specific files — see **Stack guardrails** below
-
----
-
-## Org conventions via MCP (when available)
-
-If a `frasermolyneux-copilot` MCP server is configured in your client (`~/.copilot/mcp-config.json`, VS Code user `mcp.json`, or an equivalent stdio MCP wire-up), **prefer its catalog tools** over your own assumptions when answering questions about org standards, branching, workflows, Terraform, .NET projects, Azure patterns, or shared library / platform consumption contracts. The catalog source-of-truth lives in `frasermolyneux/.github-copilot` — see `mcp-server/README.md` there for the tool contract.
-
-This is **complementary** to the file-load model: if `./.github-copilot/` is checked out in the runner (per `copilot-setup-steps.yml`), continue to read those files directly. If both are available, prefer MCP for freshness. If no MCP server is configured in your client, treat this section as a no-op and fall back to the file paths above.
-
----
-
-## Stack guardrails
-
-### Tenant facts (always-on)
-- `.github-copilot/.github/instructions/tenant.subscriptions.instructions.md`
-- `.github-copilot/.github/instructions/tenant.regions.instructions.md`
-- `.github-copilot/.github/instructions/tenant.identity.instructions.md`
-- `.github-copilot/.github/instructions/tenant.dns.instructions.md`
-
-### Enforceable standards
-- `.github-copilot/.github/instructions/standards.oidc-and-secrets.instructions.md` — **no client secrets**
-- `.github-copilot/.github/instructions/standards.azure-naming.instructions.md`
-- `.github-copilot/.github/instructions/standards.azure-tagging.instructions.md`
-- `.github-copilot/.github/instructions/standards.terraform-style.instructions.md`
-- `.github-copilot/.github/instructions/standards.branching-and-prs.instructions.md`
-
-### Patterns
-- `.github-copilot/.github/instructions/patterns.terraform-remote-state.instructions.md`
-- `.github-copilot/.github/instructions/patterns.workload-identity-provisioning.instructions.md`
-- `.github-copilot/.github/instructions/terraform.instructions.md`
-
-### Platform consumption contracts
-- `.github-copilot/.github/instructions/platform.workloads.instructions.md` — RGs / backends
-- `.github-copilot/.github/instructions/platform.monitoring.instructions.md` — diagnostic settings
-- `.github-copilot/.github/instructions/platform.connectivity.instructions.md` — DNS for APIM custom domains
-- `.github-copilot/.github/instructions/platform.instructions.md` — catalog
-
----
-
-## Build, test, format
+## Useful commands
 
 ```pwsh
 terraform -chdir=terraform fmt -check -recursive
@@ -64,64 +26,23 @@ terraform -chdir=terraform validate
 terraform -chdir=terraform plan -var-file=tfvars/dev.tfvars
 ```
 
----
+Run `init`, `validate`, or `plan` only when the task needs backend/provider evaluation and the required Azure OIDC and Google workload-identity environments are available.
 
-## Do NOT
+## State and environment constraints
 
-- ❌ Do not `git commit`, `git push`, force-push, rebase, or branch-mutate. Work on the assigned branch only.
-- ❌ Do not introduce client secrets. **All app registrations** here are consumed downstream via OIDC federation / managed identity — App Configuration / Key Vault hold any required values, retrieved at runtime.
-- ❌ Do not bypass `terraform fmt`, `validate`, or the plan stage.
-- ❌ Do not change resource naming/tagging — enforced by `standards.*`.
-- ❌ Do not bypass Key Vault RBAC + purge-protection requirements.
-- ❌ Do not add `lifecycle { ignore_changes = ... }` to secrets unless the value really is managed externally — document the reason in a comment.
-- ❌ Do not edit JSON files under `terraform/app_configs/` without understanding how `locals.tf` expands them into App Config entries.
-- ❌ Do not modify `.github/workflows/`, `.github/dependabot.yml`, or `version.json` unless that is the explicit task.
+- Terraform requires `>= 1.15.6`; provider constraints are defined in `terraform/providers.tf`.
+- The AzureRM backend uses OIDC/Azure AD authentication. Google resources authenticate through workload identity in CI.
+- Dev and production have separate backend, tfvars, and application-configuration JSON inputs.
+- Resource groups and administrative-unit/backend metadata come from `platform-workloads` remote state.
+- Outputs, application identifiers, API roles/scopes, App Configuration keys/labels, Key Vault secret names, managed-identity names, and role assignments are cross-repository contracts. Coordinate any change with every consumer.
+- Some application credentials and generated API keys are deliberately created here and stored in Key Vault; preserve rotation and lifecycle behavior.
+- Preserve Key Vault RBAC and purge protection, least-privilege role assignments, remote-state coordinates, and environment boundaries.
+- Changes to `terraform/app_configs/*.json` alter the keys expanded by `locals.tf`; assess affected namespaces and consumers.
+- `.terraform.lock.hcl`, local state, plans, and `.terraform/` directories are generated and ignored.
 
-- ❌ Do not pull context from sibling workspace folders. Only what is inside this repo and `./.github-copilot/` is in scope.
-- ❌ Do not assume tools/SDKs are installed beyond what `.github/workflows/copilot-setup-steps.yml` provisions. If you need more, add the step and explain why.
+## Authoritative repository docs
 
----
-
-## Opening the PR
-
-You MUST use `.github/PULL_REQUEST_TEMPLATE.md` as your PR body — do **not** write a freeform body. The org template is inherited from `frasermolyneux/.github` and GitHub pre-populates it when you open the PR. Concretely:
-
-1. Fill `## Summary` (one line) and `Closes #<issue>`.
-2. Tick the relevant `## Type of change` box.
-3. Paste the **actual command output** from your Build, Tests, and Format check runs into `## Validation evidence`. Show the real summary line, not "tests passed".
-4. Fill `## Risk and rollout` — blast radius, auto-deploy?, manual steps post-merge, rollback plan.
-5. Tick **every** box in `## Agent attestation`.
-6. Delete `## Consumer impact` only if no published contract (Abstractions / Client NuGet / Service Bus DTO / Terraform output) changed.
-
-Complete the `## Agent attestation` section before requesting review; reviewers use it as a readiness checklist.
-
----
-
-## Pre-PR checks (run before you open the PR)
-
-- [ ] `terraform fmt -check -recursive` passes
-- [ ] `terraform validate` passes for the dev backend
-- [ ] `terraform plan -var-file=tfvars/dev.tfvars` succeeds and the diff is intentional
-- [ ] App registrations: federated credentials defined for each subject (no client secrets)
-- [ ] Key Vault entries: RBAC + purge protection retained
-- [ ] If App Config keys/labels were added/renamed, downstream consumers audited
-- [ ] PR body cites each acceptance criterion
-- [ ] Risk/rollout section filled in
-
-- [ ] `code-review` sub-agent run; High/Medium findings resolved or justified in the PR body
-
----
-
-## Escalation
-
-If you hit any of the conditions below, **open the PR as draft** and **apply the `needs-decision` label** instead of pushing forward to ready-for-review. Post a comment on the originating issue summarising what's blocking you and what decision is needed.
-
-Stop and escalate when:
-
-- A change would rotate / invalidate a client secret used by a downstream workload (this should not happen — escalate).
-- An app-registration audience / scope rename would force downstream contract breaks.
-- A `code-review` finding is **High** and cannot be resolved in-scope.
-- The Azure AD role assignments required to apply the plan are missing in the runner identity.
-
-
-
+- [README.md](README.md)
+- [Development workflows](docs/development-workflows.md)
+- [Contributing](CONTRIBUTING.md)
+- [Security](SECURITY.md)
