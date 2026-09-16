@@ -9,6 +9,46 @@
         {
             "key": "AzureAd:Instance",
             "value": "https://login.microsoftonline.com/"
+        },
+        {
+            "key": "ApplicationInsights:TelemetryFilter:Dependencies:ExpectedFailures:0:Type",
+            "value": "InProc | Microsoft.Tables"
+        },
+        {
+            "key": "ApplicationInsights:TelemetryFilter:Dependencies:ExpectedFailures:0:Name",
+            "value": "TableClient.GetEntity"
+        },
+        {
+            "key": "ApplicationInsights:TelemetryFilter:Dependencies:ExpectedFailures:0:Target",
+            "value": "TableClient.GetEntity"
+        },
+        {
+            "key": "ApplicationInsights:TelemetryFilter:Dependencies:ExpectedFailures:0:MatchEmptyResultCode",
+            "value": "true"
+        },
+        {
+            "key": "ApplicationInsights:TelemetryFilter:Dependencies:ExpectedFailures:1:Type",
+            "value": "Azure table"
+        },
+        {
+            "key": "ApplicationInsights:TelemetryFilter:Dependencies:ExpectedFailures:1:NamePrefix",
+            "value": "GET scache"
+        },
+        {
+            "key": "ApplicationInsights:TelemetryFilter:Dependencies:ExpectedFailures:1:NameSuffix",
+            "value": "/RepositoryCache"
+        },
+        {
+            "key": "ApplicationInsights:TelemetryFilter:Dependencies:ExpectedFailures:1:TargetPrefix",
+            "value": "scache"
+        },
+        {
+            "key": "ApplicationInsights:TelemetryFilter:Dependencies:ExpectedFailures:1:TargetContains",
+            "value": ".table.core.windows.net"
+        },
+        {
+            "key": "ApplicationInsights:TelemetryFilter:Dependencies:ExpectedFailures:1:ResultCode",
+            "value": "404"
         }
     ],
     "secret_keys": [],
