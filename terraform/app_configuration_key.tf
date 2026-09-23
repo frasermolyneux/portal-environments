@@ -53,6 +53,14 @@ resource "azurerm_app_configuration_key" "repository_webapi_client_secret_v1" {
   vault_key_reference = azurerm_key_vault_secret.repository_webapi_app_password_v1.versionless_id
 }
 
+resource "azurerm_app_configuration_key" "repository_game_server_credentials_key_vault_endpoint" {
+  configuration_store_id = azurerm_app_configuration.app_configuration.id
+
+  key   = "${local.repository_webapi_namespace_v1}:GameServerCredentials:KeyVaultEndpoint"
+  label = var.environment
+  value = azurerm_key_vault.game_server_credentials.vault_uri
+}
+
 // Repository Web API V2
 resource "azurerm_app_configuration_key" "repository_webapi_audience_v2" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id

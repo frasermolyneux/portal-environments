@@ -34,6 +34,7 @@ locals {
   sync_app_registration_name                = "portal-sync-${var.environment}"
   server_events_api_app_registration_name   = "portal-server-events-${var.environment}"
   shared_key_vault_name                     = substr(format("kv-sh-%s-%s", random_id.shared_config.hex, var.location), 0, 24)
+  game_server_credentials_key_vault_name    = substr(format("kv-gsc-%s-%s", random_id.game_server_credentials.hex, var.location), 0, 24)
 
   # Static Naming
   servers_integration_namespace          = "XtremeIdiots.Portal.Integrations.Servers.Api.V1"
@@ -102,5 +103,4 @@ locals {
     ]
   ])
 }
-
 
