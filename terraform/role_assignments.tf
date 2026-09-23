@@ -39,3 +39,9 @@ resource "azurerm_role_assignment" "managed_identity_shared_kv_reader" {
   role_definition_name = "Key Vault Secrets User"
   principal_id         = azurerm_user_assigned_identity.managed[each.key].principal_id
 }
+
+resource "azurerm_role_assignment" "repository_game_server_credentials" {
+  scope                = azurerm_key_vault.game_server_credentials.id
+  role_definition_name = "Key Vault Secrets Officer"
+  principal_id         = azurerm_user_assigned_identity.managed["repository"].principal_id
+}

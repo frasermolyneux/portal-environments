@@ -6,6 +6,10 @@ resource "random_id" "shared_config" {
   byte_length = 6
 }
 
+resource "random_id" "game_server_credentials" {
+  byte_length = 6
+}
+
 resource "random_password" "external_widget_hmac_secret" {
   length  = 64
   special = false

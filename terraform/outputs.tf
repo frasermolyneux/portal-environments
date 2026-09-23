@@ -157,3 +157,13 @@ output "shared_key_vault" {
     resource_group_name = azurerm_key_vault.shared.resource_group_name
   }
 }
+
+output "game_server_credentials_key_vault" {
+  description = "Dedicated Key Vault used by the Repository API for game-server credentials."
+  value = {
+    id                  = azurerm_key_vault.game_server_credentials.id
+    name                = azurerm_key_vault.game_server_credentials.name
+    resource_group_name = azurerm_key_vault.game_server_credentials.resource_group_name
+    vault_uri           = azurerm_key_vault.game_server_credentials.vault_uri
+  }
+}
