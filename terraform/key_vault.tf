@@ -55,6 +55,9 @@ resource "azurerm_key_vault" "shared" {
 }
 
 resource "azurerm_key_vault" "game_server_credentials" {
+  #checkov:skip=CKV_AZURE_109:Repository App Services are not VNet-integrated and require the public endpoint.
+  #checkov:skip=CKV_AZURE_189:Public network access is required until Repository App Services use VNet integration.
+  #checkov:skip=CKV2_AZURE_32:A private endpoint would be unreachable from the current Repository App Services.
   name = local.game_server_credentials_key_vault_name
 
   location            = data.azurerm_resource_group.rg.location
