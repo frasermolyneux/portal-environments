@@ -8,10 +8,6 @@ locals {
     }
     servers_integration = {
       namespace = local.servers_integration_namespace
-      roles     = var.environment == "prd" ? toset(["Maps.Read", "Maps.Write"]) : toset(["Maps.Read"])
-    }
-    web = {
-      namespace = "XtremeIdiots.Portal.Web"
       roles     = toset(["Maps.Read"])
     }
   }
