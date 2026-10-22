@@ -46,11 +46,11 @@ resource "azurerm_app_configuration_key" "maps_api_base_url" {
   value                  = "https://maps.xtremeidiots.net"
 }
 
-resource "azurerm_app_configuration_key" "maps_api_resource" {
+resource "azurerm_app_configuration_key" "maps_api_application_audience" {
   for_each = local.maps_api_consumers
 
   configuration_store_id = azurerm_app_configuration.app_configuration.id
-  key                    = "${each.value.namespace}:RedirectApi:Resource"
+  key                    = "${each.value.namespace}:RedirectApi:ApplicationAudience"
   label                  = var.environment
   value                  = local.maps_api_identity.identifier_uri
 }
