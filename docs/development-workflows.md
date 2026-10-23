@@ -25,6 +25,29 @@ Terraform-only repository for portal-environments (identities, app registrations
 - **deploy-dev.yml**: Manual dispatch to refresh Development (plan+apply)
 - **devops-secure-scanning.yml**: Security scanning per repo schedule
 
+### Isolated maps integration bootstrap
+
+The initial maps integration must not reconcile unrelated live APIM drift.
+Changes only to `terraform/maps_api_integration.tf` therefore do not trigger
+automatic deployment. Workflow-only changes also require manual dispatch.
+Other Terraform changes and scheduled full deployments retain their existing
+behavior; this exception does not suppress or adopt APIM drift.
+
+For this bootstrap, label the PR `maps-bootstrap` and `run-prd-plan`. PR plans
+target only the maps role assignments, maps configuration keys, and refresh
+sentinel, including their Terraform dependencies. Inspect both environment
+plans: expect six additions, one sentinel update, and no APIM changes or
+deletions. Adding or removing `maps-bootstrap` regenerates the affected PR
+plans without interrupting an active state-backed run. Feature-branch plans
+remain full, read-only drift reports.
+
+After merging, manually dispatch **Deploy Prd** on `main` with
+`scope=maps-bootstrap`. The existing saved-plan apply and environment
+concurrency remain in force, promoting Development before Production. Do not
+use this bootstrap scope for other infrastructure changes; ordinary manual
+runs default to `scope=full`. Targets are supplied through `TF_CLI_ARGS_plan`,
+never to the saved-plan apply.
+
 ## Standard Developer Flow
 
 ```bash
