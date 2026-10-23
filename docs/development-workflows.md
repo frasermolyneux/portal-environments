@@ -37,13 +37,16 @@ For this bootstrap, label the PR `maps-bootstrap` and `run-prd-plan`. PR plans
 target only the maps role assignments, maps configuration keys, and refresh
 sentinel, including their Terraform dependencies. Inspect both environment
 plans: expect six additions, one sentinel update, and no APIM changes or
-deletions. Feature-branch plans remain full, read-only drift reports.
+deletions. Adding or removing `maps-bootstrap` regenerates the affected PR
+plans without interrupting an active state-backed run. Feature-branch plans
+remain full, read-only drift reports.
 
 After merging, manually dispatch **Deploy Prd** on `main` with
 `scope=maps-bootstrap`. The existing saved-plan apply and environment
 concurrency remain in force, promoting Development before Production. Do not
 use this bootstrap scope for other infrastructure changes; ordinary manual
-runs default to `scope=full`.
+runs default to `scope=full`. Targets are supplied through `TF_CLI_ARGS_plan`,
+never to the saved-plan apply.
 
 ## Standard Developer Flow
 
