@@ -1,4 +1,3 @@
-# checkov:skip=CKV_GHA_7:Deployment entry point selects fixed target arguments; user input is never interpolated into commands.
 name: Deploy Prd
 
 on:
@@ -9,6 +8,7 @@ on:
       - 'terraform/**'
       - '!terraform/maps_api_integration.tf'
   workflow_dispatch:
+    # checkov:skip=CKV_GHA_7:Deployment entry point selects fixed target arguments; user input is never interpolated into commands.
     inputs:
       scope:
         description: "Use maps-bootstrap only for the reviewed, isolated maps integration rollout"
