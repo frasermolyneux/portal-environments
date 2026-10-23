@@ -50,12 +50,18 @@ never to the saved-plan apply.
 
 ### Retiring the legacy redirect integration
 
-Only after both environments run the new portal consumers and the manager is
-healthy, retire `MapRedirect:BaseUrl`, `MapRedirect:ApiKey` and the shared
-`map-redirect-api-key` secret. The same `maps-bootstrap` scope includes these
-three legacy resource addresses. With the new bindings already applied,
-inspect both scoped plans for exactly three deletions and a sentinel refresh,
-with no APIM mutations.
+Only after all active consumers use the new API and the manager is healthy,
+retire `MapRedirect:BaseUrl`, `MapRedirect:ApiKey` and the shared
+`map-redirect-api-key` secret. Inventory each environment's actual subscription:
+an environment with no active legacy sync or server-integration workloads has
+no remaining callers and does not need those workloads recreated for retirement.
+Obtain explicit approval for each legacy deletion before deployment.
+
+The same `maps-bootstrap` scope includes these three legacy resource addresses.
+With the new bindings already applied, inspect both fresh scoped plans for
+exactly three approved deletions and a sentinel refresh, with no APIM mutations.
+The AzureRM provider disables secret purging so retirement soft-deletes the
+legacy credential without permanently purging it.
 
 The retirement edits shared Terraform files, so its merge would normally
 trigger a full deployment. Immediately before this coordinated merge, verify
