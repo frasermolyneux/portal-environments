@@ -40,7 +40,7 @@ jobs:
 
       - uses: frasermolyneux/actions/terraform-plan@terraform-plan/v1.4
         env:
-          TF_CLI_ARGS_plan: ${{ contains(github.event.pull_request.labels.*.name, 'maps-bootstrap') && '-target=azuread_app_role_assignment.maps_api -target=azurerm_app_configuration_key.maps_api_base_url -target=azurerm_app_configuration_key.maps_api_application_audience -target=azurerm_app_configuration_key.sentinel' || '' }}
+          TF_CLI_ARGS_plan: ${{ contains(github.event.pull_request.labels.*.name, 'maps-bootstrap') && '-target=azuread_app_role_assignment.maps_api -target=azurerm_app_configuration_key.maps_api_base_url -target=azurerm_app_configuration_key.maps_api_application_audience -target=azurerm_app_configuration_key.shared_map_redirect_base_url -target=azurerm_app_configuration_key.shared_map_redirect_api_key -target=azurerm_key_vault_secret.shared_map_redirect_api_key -target=azurerm_app_configuration_key.sentinel' || '' }}
         with:
           perform-checkout: "false"
           terraform-folder: "terraform"
@@ -71,7 +71,7 @@ jobs:
 
       - uses: frasermolyneux/actions/terraform-plan-and-apply@terraform-plan-and-apply/v1.4
         env:
-          TF_CLI_ARGS_plan: ${{ contains(github.event.pull_request.labels.*.name, 'maps-bootstrap') && '-target=azuread_app_role_assignment.maps_api -target=azurerm_app_configuration_key.maps_api_base_url -target=azurerm_app_configuration_key.maps_api_application_audience -target=azurerm_app_configuration_key.sentinel' || '' }}
+          TF_CLI_ARGS_plan: ${{ contains(github.event.pull_request.labels.*.name, 'maps-bootstrap') && '-target=azuread_app_role_assignment.maps_api -target=azurerm_app_configuration_key.maps_api_base_url -target=azurerm_app_configuration_key.maps_api_application_audience -target=azurerm_app_configuration_key.shared_map_redirect_base_url -target=azurerm_app_configuration_key.shared_map_redirect_api_key -target=azurerm_key_vault_secret.shared_map_redirect_api_key -target=azurerm_app_configuration_key.sentinel' || '' }}
         with:
           perform-checkout: "false"
           terraform-folder: "terraform"
@@ -111,7 +111,7 @@ jobs:
 
       - uses: frasermolyneux/actions/terraform-plan@terraform-plan/v1.4
         env:
-          TF_CLI_ARGS_plan: ${{ contains(github.event.pull_request.labels.*.name, 'maps-bootstrap') && '-target=azuread_app_role_assignment.maps_api -target=azurerm_app_configuration_key.maps_api_base_url -target=azurerm_app_configuration_key.maps_api_application_audience -target=azurerm_app_configuration_key.sentinel' || '' }}
+          TF_CLI_ARGS_plan: ${{ contains(github.event.pull_request.labels.*.name, 'maps-bootstrap') && '-target=azuread_app_role_assignment.maps_api -target=azurerm_app_configuration_key.maps_api_base_url -target=azurerm_app_configuration_key.maps_api_application_audience -target=azurerm_app_configuration_key.shared_map_redirect_base_url -target=azurerm_app_configuration_key.shared_map_redirect_api_key -target=azurerm_key_vault_secret.shared_map_redirect_api_key -target=azurerm_app_configuration_key.sentinel' || '' }}
         with:
           perform-checkout: "false"
           terraform-folder: "terraform"

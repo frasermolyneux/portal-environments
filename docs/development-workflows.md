@@ -48,6 +48,28 @@ use this bootstrap scope for other infrastructure changes; ordinary manual
 runs default to `scope=full`. Targets are supplied through `TF_CLI_ARGS_plan`,
 never to the saved-plan apply.
 
+### Retiring the legacy redirect integration
+
+Only after both environments run the new portal consumers and the manager is
+healthy, retire `MapRedirect:BaseUrl`, `MapRedirect:ApiKey` and the shared
+`map-redirect-api-key` secret. The same `maps-bootstrap` scope includes these
+three legacy resource addresses. With the new bindings already applied,
+inspect both scoped plans for exactly three deletions and a sentinel refresh,
+with no APIM mutations.
+
+The retirement edits shared Terraform files, so its merge would normally
+trigger a full deployment. Immediately before this coordinated merge, verify
+that **Deploy Prd** has no queued or running execution, temporarily disable
+that workflow, merge the reviewed exact head, then re-enable it even if the
+merge fails. Dispatch `scope=maps-bootstrap` on approved `main` only after
+confirming the workflow is enabled again. Do not cancel an active state-backed
+execution or leave the workflow disabled. Ordinary push filters and scheduled
+full deployments remain unchanged.
+
+After successful consumer migration, delete only the obsolete
+`portal-map-sync.php` file from the live redirect content root. Keep the static
+denial for that filename, all original direct download paths, and SFTP.
+
 ## Standard Developer Flow
 
 ```bash
