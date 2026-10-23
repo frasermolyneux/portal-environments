@@ -1,3 +1,4 @@
+# checkov:skip=CKV_GHA_7:Deployment entry point selects fixed target arguments; user input is never interpolated into commands.
 name: Deploy Prd
 
 on:
