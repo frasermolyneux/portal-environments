@@ -6,8 +6,16 @@ on:
       - main
     paths:
       - 'terraform/**'
-      - '.github/workflows/deploy-prd.yml'
+      - '!terraform/maps_api_integration.tf'
   workflow_dispatch:
+    inputs:
+      scope:
+        description: "Use maps-bootstrap only for the reviewed, isolated maps integration rollout"
+        type: choice
+        options:
+          - full
+          - maps-bootstrap
+        default: full
   schedule:
     - cron: "0 1 * * 3"
 
@@ -41,6 +49,7 @@ jobs:
           terraform-folder: "terraform"
           terraform-var-file: "tfvars/dev.tfvars"
           terraform-backend-file: "backends/dev.backend.hcl"
+          terraform-additional-args: ${{ inputs.scope == 'maps-bootstrap' && '-target=azuread_app_role_assignment.maps_api -target=azurerm_app_configuration_key.maps_api_base_url -target=azurerm_app_configuration_key.maps_api_application_audience -target=azurerm_app_configuration_key.sentinel' || '' }}
           AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
           AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
@@ -72,6 +81,7 @@ jobs:
           terraform-folder: "terraform"
           terraform-var-file: "tfvars/prd.tfvars"
           terraform-backend-file: "backends/prd.backend.hcl"
+          terraform-additional-args: ${{ inputs.scope == 'maps-bootstrap' && '-target=azuread_app_role_assignment.maps_api -target=azurerm_app_configuration_key.maps_api_base_url -target=azurerm_app_configuration_key.maps_api_application_audience -target=azurerm_app_configuration_key.sentinel' || '' }}
           AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
           AZURE_TENANT_ID: ${{ vars.AZURE_TENANT_ID }}
           AZURE_SUBSCRIPTION_ID: ${{ vars.AZURE_SUBSCRIPTION_ID }}
