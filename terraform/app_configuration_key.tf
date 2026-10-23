@@ -342,25 +342,6 @@ resource "azurerm_app_configuration_key" "shared_forums_api_key" {
   vault_key_reference = azurerm_key_vault_secret.shared_forums_api_key.versionless_id
 }
 
-resource "azurerm_app_configuration_key" "shared_map_redirect_base_url" {
-  configuration_store_id = azurerm_app_configuration.app_configuration.id
-
-  key   = "MapRedirect:BaseUrl"
-  label = var.environment
-  value = "https://redirect.xtremeidiots.net"
-}
-
-resource "azurerm_app_configuration_key" "shared_map_redirect_api_key" {
-  configuration_store_id = azurerm_app_configuration.app_configuration.id
-
-  type = "vault"
-
-  key   = "MapRedirect:ApiKey"
-  label = var.environment
-
-  vault_key_reference = azurerm_key_vault_secret.shared_map_redirect_api_key.versionless_id
-}
-
 resource "azurerm_app_configuration_key" "shared_ftp_certificate_thumbprint" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
 
