@@ -39,7 +39,7 @@ resource "azurerm_app_configuration_key" "maps_api_base_url" {
   configuration_store_id = azurerm_app_configuration.app_configuration.id
   key                    = "${each.value.namespace}:RedirectApi:BaseUrl"
   label                  = var.environment
-  value                  = "https://maps.xtremeidiots.net"
+  value                  = "https://maps.xtremeidiots.com"
 }
 
 resource "azurerm_app_configuration_key" "maps_api_application_audience" {
