@@ -2,6 +2,10 @@ locals {
   maps_api_identity = data.terraform_remote_state.platform_workloads.outputs.maps_service_identity
 
   maps_api_consumers = {
+    web = {
+      namespace = "XtremeIdiots.Portal.Web"
+      roles     = toset(["Maps.Read"])
+    }
     sync = {
       namespace = local.sync_app_namespace
       roles     = toset(["Maps.Read"])

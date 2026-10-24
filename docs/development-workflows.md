@@ -76,6 +76,22 @@ After successful consumer migration, delete only the obsolete
 `portal-map-sync.php` file from the live redirect content root. Keep the static
 denial for that filename, all original direct download paths, and SFTP.
 
+### Native Portal map downloads
+
+The `web` consumer in `maps_api_integration.tf` grants the existing Portal web
+managed identity only `Maps.Read` and installs `RedirectApi:BaseUrl` and
+`RedirectApi:ApplicationAudience` in `XtremeIdiots.Portal.Web` for each
+environment. Use the same reviewed `maps-bootstrap` plan/deployment scope.
+With sync and server integration already configured, expect three additions
+and a sentinel refresh per environment, no deletions or APIM changes.
+
+This assignment does not grant user impersonation or administration by itself.
+The Maps workload must separately allowlist the exact Portal principal IDs and
+HTTPS browser origins for its read-only delegation/download contract. Deploy
+that contract before deploying the Portal UI. Portal derives forum identity
+from its existing authenticated session; anonymous users retain anonymous
+quotas. File and ZIP bytes travel directly from Maps, not through App Service.
+
 ## Standard Developer Flow
 
 ```bash
