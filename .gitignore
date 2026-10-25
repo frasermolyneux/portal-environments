@@ -5,7 +5,6 @@
 *.tfstate.*
 *.tfplan
 *.tfvars.backup
-.terraform.lock.hcl
 crash.log
 override.tf
 override.tf.json

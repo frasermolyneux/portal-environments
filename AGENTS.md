@@ -21,7 +21,7 @@ Terraform-only repository for environment-specific portal identity and configura
 
 ```pwsh
 terraform -chdir=terraform fmt -check -recursive
-terraform -chdir=terraform init -backend-config=backends/dev.backend.hcl
+terraform -chdir=terraform init -lockfile=readonly -backend-config=backends/dev.backend.hcl
 terraform -chdir=terraform validate
 terraform -chdir=terraform plan -var-file=tfvars/dev.tfvars
 ```
@@ -38,7 +38,7 @@ Run `init`, `validate`, or `plan` only when the task needs backend/provider eval
 - Some application credentials and generated API keys are deliberately created here and stored in Key Vault; preserve rotation and lifecycle behavior.
 - Preserve Key Vault RBAC and purge protection, least-privilege role assignments, remote-state coordinates, and environment boundaries.
 - Changes to `terraform/app_configs/*.json` alter the keys expanded by `locals.tf`; assess affected namespaces and consumers.
-- `.terraform.lock.hcl`, local state, plans, and `.terraform/` directories are generated and ignored.
+- Commit each root's `.terraform-version` and `.terraform.lock.hcl`. Select the exact root CLI pin before invoking Terraform; normal initialization uses `-lockfile=readonly`. Regenerate provider selections only in a reviewed dependency-update PR; never commit state, plans, or `.terraform/`.
 
 ## Authoritative repository docs
 
