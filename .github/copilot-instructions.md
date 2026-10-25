@@ -10,4 +10,4 @@
 - Preserve credential rotation, Key Vault lifecycle rules, RBAC, purge protection, least privilege, remote-state coordinates, and environment separation.
 - Keep related application registration, service principal, permission, secret, and assignment changes consistent.
 - Format checks use `terraform -chdir=terraform fmt -check -recursive`.
-- Do not edit generated state, plans, `.terraform/`, or `.terraform.lock.hcl`.
+- Commit each root's `.terraform-version` and `.terraform.lock.hcl`. Select the exact root CLI pin before invoking Terraform; normal initialization uses `-lockfile=readonly`. Regenerate provider selections only in a reviewed dependency-update PR; never commit state, plans, or `.terraform/`.

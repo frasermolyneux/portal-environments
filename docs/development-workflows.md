@@ -95,7 +95,7 @@ quotas. File and ZIP bytes travel directly from Maps, not through App Service.
 ## Standard Developer Flow
 
 ```bash
-terraform -chdir=terraform init -backend-config=backends/dev.backend.hcl
+terraform -chdir=terraform init -lockfile=readonly -backend-config=backends/dev.backend.hcl
 terraform -chdir=terraform plan -var-file=tfvars/dev.tfvars
 ```
 
