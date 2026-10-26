@@ -26,7 +26,7 @@ terraform -chdir=terraform validate
 terraform -chdir=terraform plan -var-file=tfvars/dev.tfvars
 ```
 
-Run `init`, `validate`, or `plan` only when the task needs backend/provider evaluation and the required Azure OIDC and Google workload-identity environments are available.
+Backend initialization and planning require the task to need backend evaluation and the required Azure OIDC and Google workload-identity environments to be available. The shared main-only CI validation action uses `init -backend=false -lockfile=readonly` and `validate` without cloud credentials, state access, or planning.
 
 ## State and environment constraints
 
