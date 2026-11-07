@@ -38,12 +38,13 @@ jobs:
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
 
-      - uses: frasermolyneux/actions/terraform-plan@terraform-plan/v2.0.1
+      - uses: frasermolyneux/actions/terraform-plan@027d7e31bb32b734090aaed01b36d74f1d658b61 # v5.0.0
         env:
           TF_CLI_ARGS_plan: ${{ contains(github.event.pull_request.labels.*.name, 'maps-bootstrap') && '-target=azuread_app_role_assignment.maps_api -target=azurerm_app_configuration_key.maps_api_base_url -target=azurerm_app_configuration_key.maps_api_application_audience -target=azurerm_app_configuration_key.shared_map_redirect_base_url -target=azurerm_app_configuration_key.shared_map_redirect_api_key -target=azurerm_key_vault_secret.shared_map_redirect_api_key -target=azurerm_app_configuration_key.sentinel' || '' }}
         with:
           perform-checkout: "false"
           terraform-folder: "terraform"
+          terraform-version: "1.17.1"
           terraform-var-file: "tfvars/dev.tfvars"
           terraform-backend-file: "backends/dev.backend.hcl"
           AZURE_CLIENT_ID: ${{ env.AZURE_CLIENT_ID }}
@@ -69,12 +70,13 @@ jobs:
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
 
-      - uses: frasermolyneux/actions/terraform-plan-and-apply@terraform-plan-and-apply/v2.0.1
+      - uses: frasermolyneux/actions/terraform-plan-and-apply@027d7e31bb32b734090aaed01b36d74f1d658b61 # v5.0.0
         env:
           TF_CLI_ARGS_plan: ${{ contains(github.event.pull_request.labels.*.name, 'maps-bootstrap') && '-target=azuread_app_role_assignment.maps_api -target=azurerm_app_configuration_key.maps_api_base_url -target=azurerm_app_configuration_key.maps_api_application_audience -target=azurerm_app_configuration_key.shared_map_redirect_base_url -target=azurerm_app_configuration_key.shared_map_redirect_api_key -target=azurerm_key_vault_secret.shared_map_redirect_api_key -target=azurerm_app_configuration_key.sentinel' || '' }}
         with:
           perform-checkout: "false"
           terraform-folder: "terraform"
+          terraform-version: "1.17.1"
           terraform-var-file: "tfvars/dev.tfvars"
           terraform-backend-file: "backends/dev.backend.hcl"
           AZURE_CLIENT_ID: ${{ vars.AZURE_CLIENT_ID }}
@@ -109,12 +111,13 @@ jobs:
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
 
-      - uses: frasermolyneux/actions/terraform-plan@terraform-plan/v2.0.1
+      - uses: frasermolyneux/actions/terraform-plan@027d7e31bb32b734090aaed01b36d74f1d658b61 # v5.0.0
         env:
           TF_CLI_ARGS_plan: ${{ contains(github.event.pull_request.labels.*.name, 'maps-bootstrap') && '-target=azuread_app_role_assignment.maps_api -target=azurerm_app_configuration_key.maps_api_base_url -target=azurerm_app_configuration_key.maps_api_application_audience -target=azurerm_app_configuration_key.shared_map_redirect_base_url -target=azurerm_app_configuration_key.shared_map_redirect_api_key -target=azurerm_key_vault_secret.shared_map_redirect_api_key -target=azurerm_app_configuration_key.sentinel' || '' }}
         with:
           perform-checkout: "false"
           terraform-folder: "terraform"
+          terraform-version: "1.17.1"
           terraform-var-file: "tfvars/prd.tfvars"
           terraform-backend-file: "backends/prd.backend.hcl"
           AZURE_CLIENT_ID: ${{ env.AZURE_CLIENT_ID }}
