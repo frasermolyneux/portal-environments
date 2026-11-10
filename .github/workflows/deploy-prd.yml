@@ -6,17 +6,8 @@ on:
       - main
     paths:
       - 'terraform/**'
-      - '!terraform/maps_api_integration.tf'
+      - '.github/workflows/deploy-prd.yml'
   workflow_dispatch:
-    # checkov:skip=CKV_GHA_7:Deployment entry point selects fixed target arguments; user input is never interpolated into commands.
-    inputs:
-      scope:
-        description: "Use maps-bootstrap only for reviewed maps integration setup or legacy retirement"
-        type: choice
-        options:
-          - full
-          - maps-bootstrap
-        default: full
   schedule:
     - cron: "0 1 * * 3"
 
@@ -45,8 +36,6 @@ jobs:
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
 
       - uses: frasermolyneux/actions/terraform-plan-and-apply@027d7e31bb32b734090aaed01b36d74f1d658b61 # v5.0.0
-        env:
-          TF_CLI_ARGS_plan: ${{ inputs.scope == 'maps-bootstrap' && '-target=azuread_app_role_assignment.maps_api -target=azurerm_app_configuration_key.maps_api_base_url -target=azurerm_app_configuration_key.maps_api_application_audience -target=azurerm_app_configuration_key.shared_map_redirect_base_url -target=azurerm_app_configuration_key.shared_map_redirect_api_key -target=azurerm_key_vault_secret.shared_map_redirect_api_key -target=azurerm_app_configuration_key.sentinel' || '' }}
         with:
           perform-checkout: "false"
           terraform-folder: "terraform"
@@ -79,8 +68,6 @@ jobs:
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
 
       - uses: frasermolyneux/actions/terraform-plan-and-apply@027d7e31bb32b734090aaed01b36d74f1d658b61 # v5.0.0
-        env:
-          TF_CLI_ARGS_plan: ${{ inputs.scope == 'maps-bootstrap' && '-target=azuread_app_role_assignment.maps_api -target=azurerm_app_configuration_key.maps_api_base_url -target=azurerm_app_configuration_key.maps_api_application_audience -target=azurerm_app_configuration_key.shared_map_redirect_base_url -target=azurerm_app_configuration_key.shared_map_redirect_api_key -target=azurerm_key_vault_secret.shared_map_redirect_api_key -target=azurerm_app_configuration_key.sentinel' || '' }}
         with:
           perform-checkout: "false"
           terraform-folder: "terraform"

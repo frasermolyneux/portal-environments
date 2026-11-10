@@ -69,8 +69,3 @@ resource "azurerm_api_management_diagnostic" "application_insights" {
     headers_to_log = []
   }
 }
-
-import {
-  to = azurerm_api_management_diagnostic.application_insights
-  id = "${azurerm_api_management.apim.id}/diagnostics/applicationinsights"
-}
