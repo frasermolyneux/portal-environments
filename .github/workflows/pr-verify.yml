@@ -20,7 +20,7 @@ jobs:
       github.event.pull_request.draft == false &&
       !contains(github.event.pull_request.labels.*.name, 'deploy-dev') &&
       (contains(fromJson('["opened","synchronize","reopened","ready_for_review"]'), github.event.action) ||
-      (contains(fromJson('["labeled","unlabeled"]'), github.event.action) && github.event.label.name == 'maps-bootstrap'))
+      (github.event.action == 'unlabeled' && github.event.label.name == 'deploy-dev'))
     environment: Development
     runs-on: ubuntu-latest
     concurrency:
@@ -39,8 +39,6 @@ jobs:
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
 
       - uses: frasermolyneux/actions/terraform-plan@027d7e31bb32b734090aaed01b36d74f1d658b61 # v5.0.0
-        env:
-          TF_CLI_ARGS_plan: ${{ contains(github.event.pull_request.labels.*.name, 'maps-bootstrap') && '-target=azuread_app_role_assignment.maps_api -target=azurerm_app_configuration_key.maps_api_base_url -target=azurerm_app_configuration_key.maps_api_application_audience -target=azurerm_app_configuration_key.shared_map_redirect_base_url -target=azurerm_app_configuration_key.shared_map_redirect_api_key -target=azurerm_key_vault_secret.shared_map_redirect_api_key -target=azurerm_app_configuration_key.sentinel' || '' }}
         with:
           perform-checkout: "false"
           terraform-folder: "terraform"
@@ -71,8 +69,6 @@ jobs:
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
 
       - uses: frasermolyneux/actions/terraform-plan-and-apply@027d7e31bb32b734090aaed01b36d74f1d658b61 # v5.0.0
-        env:
-          TF_CLI_ARGS_plan: ${{ contains(github.event.pull_request.labels.*.name, 'maps-bootstrap') && '-target=azuread_app_role_assignment.maps_api -target=azurerm_app_configuration_key.maps_api_base_url -target=azurerm_app_configuration_key.maps_api_application_audience -target=azurerm_app_configuration_key.shared_map_redirect_base_url -target=azurerm_app_configuration_key.shared_map_redirect_api_key -target=azurerm_key_vault_secret.shared_map_redirect_api_key -target=azurerm_app_configuration_key.sentinel' || '' }}
         with:
           perform-checkout: "false"
           terraform-folder: "terraform"
@@ -92,8 +88,7 @@ jobs:
       github.event.pull_request.draft == false &&
       contains(github.event.pull_request.labels.*.name, 'run-prd-plan') &&
       (contains(fromJson('["opened","synchronize","reopened","ready_for_review"]'), github.event.action) ||
-      (github.event.action == 'labeled' && github.event.label.name == 'run-prd-plan') ||
-      (contains(fromJson('["labeled","unlabeled"]'), github.event.action) && github.event.label.name == 'maps-bootstrap'))
+      (github.event.action == 'labeled' && github.event.label.name == 'run-prd-plan'))
     environment: Production
     runs-on: ubuntu-latest
     concurrency:
@@ -112,8 +107,6 @@ jobs:
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
 
       - uses: frasermolyneux/actions/terraform-plan@027d7e31bb32b734090aaed01b36d74f1d658b61 # v5.0.0
-        env:
-          TF_CLI_ARGS_plan: ${{ contains(github.event.pull_request.labels.*.name, 'maps-bootstrap') && '-target=azuread_app_role_assignment.maps_api -target=azurerm_app_configuration_key.maps_api_base_url -target=azurerm_app_configuration_key.maps_api_application_audience -target=azurerm_app_configuration_key.shared_map_redirect_base_url -target=azurerm_app_configuration_key.shared_map_redirect_api_key -target=azurerm_key_vault_secret.shared_map_redirect_api_key -target=azurerm_app_configuration_key.sentinel' || '' }}
         with:
           perform-checkout: "false"
           terraform-folder: "terraform"
